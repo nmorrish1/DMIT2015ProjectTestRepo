@@ -1,16 +1,68 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
-	xmlns:of="http://omnifaces.org/functions">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	
+	<ui:param name="title" value="Assignment 04" />
+	
+	<ui:define name="externalstyles">
+	
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	
+	</ui:define>
+	
+	<ui:define name="headscripts">
+		
+	</ui:define>
 
-<h:head>
-	<title>Hello World JSF 2.3</title>
-</h:head>
+	
+	<ui:define name="maincontent">
+		<b:jumbotron>
+			<marquee><h1>DMIT 2015 Assignment 04</h1></marquee>
+			<h2>Nicholas Morrish</h2>
+		</b:jumbotron>
 
-<h:body>
-	<p:outputPanel style="display:block">
-		<h3 style="text-align: center">#{sampleBean.message}</h3>
-	</p:outputPanel>
-</h:body>
-</html>
+		<b:row>
+			<b:column col-md="12">
+				<h3>Welcome to the DMIT2015 Assignment 04 Home Page</h3>
+			</b:column>
+			<b:column col-md="12">
+				<b:panel look="primary" title="Click one of the following for each Use Case:">
+					<b:listLinks>
+						<b:navLink href="#{request.contextPath}/federalTaxes.xhtml" value="Use Case 01: Federal Tax List"></b:navLink>
+						<b:navLink href="#{request.contextPath}/provincialTaxes.xhtml" value="Use Case 02: Provincial Tax List"></b:navLink>
+						<b:navLink href="#{request.contextPath}/taxRatesByYear.xhtml" value="Use Case 03: Federal Tax Rates by Year"></b:navLink>
+						<b:navLink href="#{request.contextPath}/provincialTaxesByProvinceAndYear.xhtml" value="Use Case 04: Tax Rates by Year and Province"></b:navLink>
+						<b:navLink href="#{request.contextPath}/taxCalculator.xhtml" value="Use Case 05: Calcualte Tax Amounts"></b:navLink>
+					</b:listLinks>
+				</b:panel>
+			</b:column>
+			<b:column>
+				<h3>Discussion</h3>
+				<p>For this assignment, I have completed the following tasks:</p>
+				<ul>
+					<li></li>
+					<li></li>
+				</ul>
+				<p></p>
+				
+			</b:column>
+		</b:row>
+
+	</ui:define>
+	<ui:define name="bodyscripts">
+	
+	</ui:define>
+</ui:composition>

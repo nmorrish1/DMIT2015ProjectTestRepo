@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:hf="http://highfaces.org" 
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:o="http://omnifaces.org/ui" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		
+	<meta name="description" content="${description}"/>
+    <meta name="keywords" content="${keywords}" />
+    
+    <!--  <ui:insert name="externalstyles">
+	</ui:insert>
+	<style>
+		<ui:insert name="internalstyles">	
+		</ui:insert>	
+	</style>
+	<ui:insert name="headscripts">
+	</ui:insert> -->
+	
+	<style>
+	  .jumbotron {margin-top:60px;}
+	  	
+	  .calculation-tax-table {width:280px; margin:0 auto; border: 1px solid #4E5D6C}
+	  .calculation-tax-table td {text-align:right;}
+	  
+	  .tax-table{width:550px; margin: 0 auto;}
+	  .tax-table td:nth-child(1){width:60px; text-align:center;}
+	  .tax-table td:nth-child(2){width:120px;}
+	  .tax-table td:nth-child(3){width:120px;}
+	  .tax-table td:nth-child(4){text-align:center;}
+	  .tax-table th:nth-child(1){width:60px; text-align:center;}
+	  .tax-table th:nth-child(2){width:120px; text-align:center;}
+	  .tax-table th:nth-child(3){width:120px; text-align:center;}
+	  .tax-table th:nth-child(4){text-align:center;}
+	  
+	  .tax-table-province {width:730px; margin: 0 auto;}
+	  .tax-table-province th:nth-child(1){width:110px; text-align:center;}
+	  .tax-table-province th:nth-child(2){width:200px; text-align:center;}
+	  .tax-table-province th:nth-child(3){width:160px;}
+	  .tax-table-province th:nth-child(4){width:160px;}
+	  .tax-table-province th:nth-child(5){width:160px;}
+	  
+	  .tax-table-province td:nth-child(1){width:80px; text-align:center;}
+	  .tax-table-province td:nth-child(2){width:200px; text-align:left;}
+	  .tax-table-province td:nth-child(3){width:160px;}
+	  .tax-table-province td:nth-child(4){width:160px;}
+	  .tax-table-province td:nth-child(5){width:100px; text-align:center;}
+	  
+	  .input-group-addon {color:#ffffff}
+	  
+	</style>
+
+	<title>${title}</title>
+</h:head>
+<h:body>
+	<b:container style="min-height:100%;">
+	<div style="margin-bottom:5%; min-height:95%;">
+		<header>
+			<b:navBar brand="DMIT2015 Assignment 03" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''">
+		    	<b:navbarLinks>
+					<b:dropMenu value="Use Cases">
+		            	<b:navLink value="Use Case 1: View Federal Taxes" href="#{request.contextPath}/federalTaxes.xhtml"></b:navLink>
+		            	<b:navLink value="Use Case 2: View Provincial Taxes" href="#{request.contextPath}/provincialTaxes.xhtml"></b:navLink>
+		            	<b:navLink value="Use Case 3: Federal Taxes By Year" href="#{request.contextPath}/taxRatesByYear.xhtml"></b:navLink>
+		            	<b:navLink value="Use Case 4: Provincial Taxes By Year and Province" href="#{request.contextPath}/provincialTaxesByProvinceAndYear.xhtml"></b:navLink>
+		            	<b:navLink value="Use Case 5: Calculate Tax Amounts" href="#{request.contextPath}/taxCalculator.xhtml"></b:navLink>
+		        	</b:dropMenu>
+		        </b:navbarLinks>
+		    </b:navBar>
+		</header>
+	
+		
+	
+		<ui:insert name="maincontent">
+	    	NO MAIN CONTENT PROVIDED
+	    </ui:insert>
+    
+    </div>
+	<footer class="footer fixed-bottom">
+	 	<p>This
+		<a href="https://javaee.github.io/tutorial/toc.html" target="_blanks">Java EE 8</a>
+		web application is built using
+		<a href="http://www.eclipse.org/downloads/eclipse-packages/" target="_blanks">Eclipse IDE for Java EE Developers</a>, 
+		<a href="https://javaee.github.io/javaserverfaces-spec/" target="_blanks">JSF</a>,         		
+		<a href="http://omnifaces.org/" target="_blanks">OmniFaces</a>,
+		<a href="https://www.bootsfaces.net/" target="_blanks">BootsFaces</a>, 
+		<a href="http://primefaces.org/" target="_blanks">PrimeFaces</a>,
+		and runs on
+		<a href="http://www.wildfly.org/" target="_blanks">WildFly</a>        		
+		</p>
+	 </footer>   
+	 
+	 </b:container>
+
+	<ui:insert name="bodyscripts">
+	</ui:insert>
+</h:body>
+
+
+
+</html>
