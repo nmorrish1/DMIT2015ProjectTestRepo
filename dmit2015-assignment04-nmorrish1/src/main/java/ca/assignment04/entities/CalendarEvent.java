@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,9 +19,13 @@ import lombok.NoArgsConstructor;
 public class CalendarEvent {
 	
 	@Id
-	@Column(name="EventID")
+	//@Column(name="EventID")
 	@GeneratedValue
 	private Long eventId;
+	
+	@Column(name="EventName")
+	@NotBlank(message = "Event name is required")
+	private String eventName;
 	
 	@Column(name="StartDate")
 	private Date startDate;
@@ -33,5 +38,7 @@ public class CalendarEvent {
 
 	@Column(name="Description")
 	private String description;
+	
+	
 	
 }

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.omnifaces.util.Messages;
 
@@ -14,6 +15,7 @@ import ca.assignment04.service.CalendarEventService;
 import lombok.Getter;
 import lombok.Setter;
 
+@Named
 @ApplicationScoped
 public class CalendarEventController {
 	
@@ -25,7 +27,7 @@ public class CalendarEventController {
 	private List<CalendarEvent> events;
 	
 	@Getter @Setter
-	private CalendarEvent currentEvent;
+	private CalendarEvent currentEvent = new CalendarEvent();
 	
 	@PostConstruct
 	void init() {

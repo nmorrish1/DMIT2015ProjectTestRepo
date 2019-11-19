@@ -45,7 +45,10 @@
 
 			<b:commandButton value="Submit New" 
 							 look="primary" 
-							 iconAwesome="save"/>
+							 iconAwesome="save"
+							 action="#{calendarEventController.create()}"
+							 update=":messages detailPanel"/>
+							 
 		</b:form>
 
 

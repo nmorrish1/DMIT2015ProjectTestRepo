@@ -8,13 +8,13 @@
 	<persistence-unit name="persistence-unit-from-persistence-xml">
 		<jta-data-source>java:app/datasources/assignment04/assignment04DS</jta-data-source>
 
-		<class>ca.assignment04.entities.CalendarEvent</class>
+		<!--  <class>ca.assignment04.entities.CalendarEvent</class>
 
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-			<property name="javax.persistence.schema-generation.database.action" value="create" />
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
 		</properties>
 	</persistence-unit>
 </persistence>

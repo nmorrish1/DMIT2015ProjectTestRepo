@@ -34,7 +34,7 @@ public class CalendarEventService {
 	public List<CalendarEvent> listAllEvents(){
 		
 		return manageStatelessEntities.createQuery(
-					"SELECT event FROM CalendarEvent ORDER BY event.StartDate DESC",
+					"SELECT event FROM CalendarEvent event",
 					CalendarEvent.class)
 				.getResultList();
 	}

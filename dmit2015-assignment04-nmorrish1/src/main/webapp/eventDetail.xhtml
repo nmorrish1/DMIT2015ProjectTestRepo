@@ -15,29 +15,45 @@
 
 			<b:row>
 				<b:column col-md="12">
-					<b:inputText id="Name" label="Name of Event" value="" />
+					<b:inputText 
+						id="Name" 
+						label="Name of Event" 
+						value="#{calendarEventController.currentEvent.eventName}" />
 				</b:column>
 				<b:column col-md="6">
-					<b:dateTimePicker id="StartDate" 
-									  label="Event Start Date"
-									  mode="inline"></b:dateTimePicker>
+					<b:dateTimePicker 
+						id="StartDate" 
+						label="Event Start Date"
+						mode="inline"
+						value="#{calendarEventController.currentEvent.startDate}"></b:dateTimePicker>
 				</b:column>
 				<b:column col-md="6">
 					<b:dateTimePicker id="EndDate" 
 									  label="Event End Date"
-									  mode="inline"></b:dateTimePicker>
+									  mode="inline"
+									  value="#{calendarEventController.currentEvent.endDate}"></b:dateTimePicker>
 				</b:column>
 				<b:column col-md="12">
-					<b:inputText id="Location" label="Event Location" value="" />
+					<b:inputText 
+						id="Location" 
+						label="Event Location" 
+						value="#{calendarEventController.currentEvent.location}" />
 				</b:column>
 				<b:column col-md="12">
-					<b:inputTextarea id="Description" label="Event Description" value="" ></b:inputTextarea> 
+					<b:inputTextarea 
+						id="Description" 
+						label="Event Description" 
+						value="#{calendarEventController.currentEvent.description}" ></b:inputTextarea> 
 				</b:column>
 				<b:column col-md="6">
-					<b:selectBooleanCheckbox id="Reminder" label="Would you like a reminder?" value=""></b:selectBooleanCheckbox>
+					<b:selectBooleanCheckbox 
+						id="Reminder" 
+						label="Would you like a reminder?"></b:selectBooleanCheckbox>
 				</b:column>
 				<b:column col-md="6">
-					<b:selectOneMenu id="ReminderTime" label="When would you like it?"></b:selectOneMenu>
+					<b:selectOneMenu 
+						id="ReminderTime" 
+						label="When would you like it?"></b:selectOneMenu>
 				</b:column>
 			</b:row>
 
