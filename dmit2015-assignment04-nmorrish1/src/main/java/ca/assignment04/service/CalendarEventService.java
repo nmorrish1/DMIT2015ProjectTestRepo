@@ -31,6 +31,10 @@ public class CalendarEventService {
 		return manageStatelessEntities.find(CalendarEvent.class, entityId);
 	}
 	
+	public CalendarEvent findById(Long id) {
+		return manageStatelessEntities.find(CalendarEvent.class, id);
+	}
+	
 	public List<CalendarEvent> listAllEvents(){
 		
 		return manageStatelessEntities.createQuery(

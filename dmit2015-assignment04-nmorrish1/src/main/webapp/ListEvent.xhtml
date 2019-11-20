@@ -42,7 +42,8 @@
 		<b:form>
 			<b:dataTable
 				value="#{calendarEventController.events}"
-				var="event">
+				var="event"
+				class="event-table">
 					<b:dataTableColumn label="Event ID" value="#{event.eventId}"/>
 					<b:dataTableColumn label="Event Name" value="#{event.eventName}"/>
 					<b:dataTableColumn label="Start Date" value="#{event.startDate}"/>
@@ -50,7 +51,10 @@
 					<b:dataTableColumn label="Location" value="#{event.location}"/>
 					<b:dataTableColumn label="Description" value="#{event.description}"/>
 					<b:dataTableColumn label="Action">					
-						
+						<b:link id="editLink" outcome="edit"  icon-awesome="edit" icon-size="lg">
+							<f:param name="editId" value="#{item.id}" />
+							edit
+						</b:link>
 					</b:dataTableColumn>
 			</b:dataTable>
 		</b:form>

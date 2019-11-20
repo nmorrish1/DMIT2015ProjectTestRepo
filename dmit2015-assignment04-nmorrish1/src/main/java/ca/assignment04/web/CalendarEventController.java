@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
 import ca.assignment04.entities.CalendarEvent;
@@ -32,6 +33,12 @@ public class CalendarEventController {
 	
 	@Getter @Setter
 	private Integer reminderMinutes = 0;
+	
+	@Getter @Setter 
+	private Long editId = null;
+	
+	@Getter @Setter 
+	private boolean editMode = false;
 	
 	@PostConstruct
 	void init() {
@@ -59,6 +66,27 @@ public class CalendarEventController {
 		}
 		
 		return outcome;
+	}
+	
+	public void edit() {
+		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
+			if (editId != null) {
+				try {
+					currentEvent = eventService.findById(editId);
+					if (currentEvent != null) {
+						editMode = true;
+					} else {
+						Messages.addFlashGlobalError("{0} is not a valid id value", editId);
+						Faces.navigate("list?faces-redirect=true");						
+					}
+				} catch (Exception e) {
+					Messages.addGlobalError("Query unsucessful");
+					log.fine(e.getMessage());	
+				}	
+			} else {
+				Faces.navigate("list?faces-redirect=true");	
+			}
+		} 
 	}
 
 }
