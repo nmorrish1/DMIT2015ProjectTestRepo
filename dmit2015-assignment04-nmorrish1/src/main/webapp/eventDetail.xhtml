@@ -24,12 +24,14 @@
 					<b:dateTimePicker 
 						id="StartDate" 
 						label="Event Start Date"
+						format="ddd MM/DD/YYYY h:mm A"
 						mode="inline"
 						value="#{calendarEventController.currentEvent.startDate}"></b:dateTimePicker>
 				</b:column>
 				<b:column col-md="6">
 					<b:dateTimePicker id="EndDate" 
 									  label="Event End Date"
+									  format="ddd MM/DD/YYYY h:mm A"
 									  mode="inline"
 									  value="#{calendarEventController.currentEvent.endDate}"></b:dateTimePicker>
 				</b:column>
