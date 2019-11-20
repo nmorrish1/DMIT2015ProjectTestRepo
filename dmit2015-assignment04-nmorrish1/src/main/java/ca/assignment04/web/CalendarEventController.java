@@ -24,10 +24,14 @@ public class CalendarEventController {
 	@Inject
 	private CalendarEventService eventService;
 	
+	@Getter
 	private List<CalendarEvent> events;
 	
 	@Getter @Setter
 	private CalendarEvent currentEvent = new CalendarEvent();
+	
+	@Getter @Setter
+	private Integer reminderMinutes = 0;
 	
 	@PostConstruct
 	void init() {
@@ -47,6 +51,8 @@ public class CalendarEventController {
 			currentEvent = new CalendarEvent();
 			Messages.addFlashGlobalInfo("Event successfully added to calendar");
 			outcome = "list?faces-redirect=true";
+			
+			events = eventService.listAllEvents();
 		} catch (Exception e) {
 			Messages.addGlobalError("Error: could not add event");
 			log.fine(e.getMessage());
@@ -54,4 +60,5 @@ public class CalendarEventController {
 		
 		return outcome;
 	}
+
 }

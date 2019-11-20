@@ -39,6 +39,9 @@ public class CalendarEvent {
 	@Column(name="Description")
 	private String description;
 	
+	@Column(name="ReminderNumber")
+	private String reminderNumber;
+	
 	
 	
 }
