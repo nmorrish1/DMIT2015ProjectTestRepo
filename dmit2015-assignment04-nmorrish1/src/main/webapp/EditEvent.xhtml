@@ -27,11 +27,17 @@
 
 
 	<ui:define name="maincontent">
+	
+		<f:metadata>
+			<f:viewParam name="editId" value="#{calendarEventController.editId}" />
+			<f:event listener="#{calendarEventController.edit()}" type="preRenderView" />
+		</f:metadata>
+	
 		<b:jumbotron>
 			<marquee>
 				<h1>DMIT 2015 Assignment 04</h1>
 			</marquee>
-			<h2>Create Event</h2>
+			<h2>Edit Event</h2>
 		</b:jumbotron>
 
 
@@ -43,10 +49,23 @@
 
 			<ui:include src="eventDetail.xhtml" />
 
-			<b:commandButton value="Submit New" 
+			<b:commandButton value="Update" 
 							 look="primary" 
 							 iconAwesome="save"
-							 action="#{calendarEventController.create()}"
+							 action="#{calendarEventController.update()}"
+							 update=":messages detailPanel"/>
+							 
+			<b:commandButton value="Delete" 
+							 look="danger" 
+							 onclick="return confirm('Are you sure you want to delete this event?')"
+							 iconAwesome="trash"
+							 action="#{calendarEventController.delete()}"
+							 update=":messages detailPanel"/>
+							 
+			<b:commandButton value="X Cancel" 
+							 look="info" 
+							 iconAwesome="cancel"
+							 action="#{calendarEventController.cancel()}"
 							 update=":messages detailPanel"/>
 							 
 		</b:form>

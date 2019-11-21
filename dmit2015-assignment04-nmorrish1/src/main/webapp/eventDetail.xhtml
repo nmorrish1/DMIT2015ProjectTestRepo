@@ -51,8 +51,8 @@
 					<b:selectOneMenu 
 						id="ReminderDropDown" 
 						label="How soon before the event would you like to be reminded of it?"
-						value="#{calendarEventController.reminderMinutes}">
-							<f:selectItem itemLabel="No Reminder. Click to select one" itemValue="0" selected="true"/>
+						value="#{calendarEventController.currentEvent.reminderNumber}">
+							<f:selectItem itemLabel="No Reminder. Click to select one" itemValue="1" selected="true"/>
 							<f:selectItem itemLabel="5 Minutes" itemValue="5"/>
 							<f:selectItem itemLabel="15 Minutes" itemValue="15"/>
 							<f:selectItem itemLabel="30 Minutes" itemValue="30"/>
@@ -60,6 +60,12 @@
 							<f:selectItem itemLabel="12 Hours" itemValue="720"/>
 							<f:selectItem itemLabel="1 Day" itemValue="1440"/>
 							<f:selectItem itemLabel="1 Week" itemValue="10080"/></b:selectOneMenu>
+				</b:column>
+				<b:column col-md="6">
+					<b:inputText 
+						id="Email" 
+						label="Email to send reminder to" 
+						value="#{calendarEventController.currentEvent.reminderEmail}" />
 				</b:column>
 			</b:row>
 

@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
@@ -29,10 +30,11 @@ public class CalendarEventController {
 	private List<CalendarEvent> events;
 	
 	@Getter @Setter
+	@Valid
 	private CalendarEvent currentEvent = new CalendarEvent();
 	
 	@Getter @Setter
-	private Integer reminderMinutes = 0;
+	private String reminderEmail = null;
 	
 	@Getter @Setter 
 	private Long editId = null;
@@ -54,12 +56,19 @@ public class CalendarEventController {
 		String outcome = null;
 		
 		try {
-			eventService.add(currentEvent);
-			currentEvent = new CalendarEvent();
-			Messages.addFlashGlobalInfo("Event successfully added to calendar");
-			outcome = "list?faces-redirect=true";
 			
-			events = eventService.listAllEvents();
+			if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
+				eventService.add(currentEvent);
+				currentEvent = new CalendarEvent();
+				Messages.addFlashGlobalInfo("Event successfully added to calendar");
+				outcome = "list?faces-redirect=true";
+				
+				events = eventService.listAllEvents();
+			} else {
+				Messages.addGlobalError("Event end date cannot come before event start date");
+			}
+	
+			
 		} catch (Exception e) {
 			Messages.addGlobalError("Error: could not add event");
 			log.fine(e.getMessage());
@@ -76,8 +85,7 @@ public class CalendarEventController {
 					if (currentEvent != null) {
 						editMode = true;
 					} else {
-						Messages.addFlashGlobalError("{0} is not a valid id value", editId);
-						Faces.navigate("list?faces-redirect=true");						
+						Faces.redirect("ListEvent.xhtml");				
 					}
 				} catch (Exception e) {
 					Messages.addGlobalError("Query unsucessful");
@@ -87,6 +95,48 @@ public class CalendarEventController {
 				Faces.navigate("list?faces-redirect=true");	
 			}
 		} 
+	}
+	
+	public String update() {
+		String outcome = null;
+		
+		try {
+			eventService.update(currentEvent);
+			currentEvent = new CalendarEvent();
+			editMode = false;
+			editId = null;
+			
+			Messages.addFlashGlobalInfo("Update was succesful");
+			outcome = "list?faces-redirect=true";
+		} catch (Exception e) {
+			Messages.addGlobalError("Update was not successful");
+			log.fine(e.getMessage());
+		}
+		
+		return outcome;
+	}
+	
+	public String delete() {
+		String nextUrl = null;
+		
+		try {
+			eventService.remove(currentEvent);
+			events.remove(currentEvent);
+			Faces.redirect("ListEvent.xhtml");
+		} catch (Exception e) {
+			Messages.addGlobalError("Error: event was not deleted.");
+			log.fine(e.getMessage());
+		}
+		
+		return nextUrl;
+		
+	}
+	
+	public String cancel() {
+		currentEvent = null;
+		editMode = false;
+		Faces.redirect("ListEvent.xhtml");
+		return "list?faces-redirect=true";
 	}
 
 }
