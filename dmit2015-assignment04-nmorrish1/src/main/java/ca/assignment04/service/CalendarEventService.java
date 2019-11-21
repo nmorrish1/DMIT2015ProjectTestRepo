@@ -55,23 +55,19 @@ public class CalendarEventService {
 
 		    GregorianCalendar calendar = new GregorianCalendar();
 		    
-//		    calendar.setTime(DateUtils.addMinutes(event.getStartDate(), event.getReminderNumber()));
-		    calendar.setTime(event.getStartDate());
+		    calendar.setTime(DateUtils.addMinutes(event.getStartDate(), -1 * event.getReminderNumber()));
 		    
 			scheduleExpression.year(calendar.get(Calendar.YEAR));
-			scheduleExpression.month(calendar.get(Calendar.MONTH));
+			scheduleExpression.month(calendar.get(Calendar.MONTH) + 1);
 			scheduleExpression.dayOfMonth(calendar.get(Calendar.DAY_OF_MONTH));
 			scheduleExpression.hour(calendar.get(Calendar.HOUR_OF_DAY));
 			scheduleExpression.minute(calendar.get(Calendar.MINUTE));
+			scheduleExpression.second(0);
 			
 			TimerConfig timerConfig = new TimerConfig();
 			timerConfig.setInfo(event);
 			
-//			timerService.createSingleActionTimer(event.getReminderNumber(), timerConfig);
 		    timerService.createCalendarTimer(scheduleExpression, timerConfig);
-		    
-//		    SendMail message = new SendMail(event.getReminderEmail(), event);
-//			message.Send();
 
 			
 		}
