@@ -8,8 +8,10 @@ ComponentSettings:
   - 8080/TCP
   - 8778/TCP
   Application: app
-  Project: dmit-assignment04
-  Name: assignment04-yourname
+  Project: default
+  Name: assignment04-nmorrish1
   Url:
-  - Name: assignment04-yourname-8080
+  - Name: assignment04-nmorrish1-8080
     Port: 8080
+  - Name: assignment04-nmorrish1-8778
+    Port: 8778
