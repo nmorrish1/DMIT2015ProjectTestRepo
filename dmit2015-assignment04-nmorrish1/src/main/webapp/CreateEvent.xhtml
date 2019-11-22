@@ -37,11 +37,11 @@
 
 		<h3>Create a new event here:</h3>
 		
-		<b:messages id="messages" />
-		
 		<b:form>
 
 			<ui:include src="eventDetail.xhtml" />
+			
+			
 
 			<b:commandButton value="Submit New" 
 							 look="primary" 
@@ -50,10 +50,9 @@
 							 update=":messages detailPanel"/>
 							 
 		</b:form>
-
-
-
-
+		
+		<b:messages id="messages" />
+		
 	</ui:define>
 	<ui:define name="bodyscripts">
 

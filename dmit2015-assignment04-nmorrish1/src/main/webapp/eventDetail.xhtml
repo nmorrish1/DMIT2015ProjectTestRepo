@@ -54,7 +54,7 @@
 						value="#{calendarEventController.currentEvent.reminderNumber}"
 						ajax="true"
 						onchange="ajax:calendarEventController.emailBoxToggle()"
-						update="emailpanel">
+						update=":messages emailpanel">
 							<f:selectItem itemLabel="No Reminder. Click to select one" itemValue="0" selected="true"/>
 							<f:selectItem itemLabel="5 Minutes" itemValue="5"/>
 							<f:selectItem itemLabel="15 Minutes" itemValue="15"/>

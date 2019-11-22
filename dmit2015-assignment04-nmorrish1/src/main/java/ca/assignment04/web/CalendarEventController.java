@@ -45,11 +45,11 @@ public class CalendarEventController implements Serializable{
 	private Long editId = null;
 	
 	@Getter @Setter 
-	private boolean editMode = false;
+	private boolean editMode = true;
 	
 	//Change back to true if email panel ajax is working
 	@Getter @Setter
-	private boolean hideEmailEntry = false;
+	private boolean hideEmailEntry = true;
 	
 	@PostConstruct
 	void init() {
