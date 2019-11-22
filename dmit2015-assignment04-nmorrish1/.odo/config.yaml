@@ -1,0 +1,15 @@
+kind: LocalConfig
+apiversion: odo.openshift.io/v1alpha1
+ComponentSettings:
+  Type: wildfly
+  SourceLocation: target/dmit2015-assignment04-nmorrish1.war
+  SourceType: binary
+  Ports:
+  - 8080/TCP
+  - 8778/TCP
+  Application: app
+  Project: dmit-assignment04
+  Name: assignment04-yourname
+  Url:
+  - Name: assignment04-yourname-8080
+    Port: 8080

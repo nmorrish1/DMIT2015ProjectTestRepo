@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
@@ -15,6 +16,8 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
+import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -25,9 +28,11 @@ import ca.assignment04.entities.CalendarEvent;
 import ca.assignment04.mail.SendMail;
 
 @Stateless
-@DeclareRoles({"ADMIN", "USER"})
-@PermitAll
+@Interceptors({EventInterceptor.class})
 public class CalendarEventService {
+	
+	@Inject
+	private Logger logger;
 	
 	@PersistenceContext(unitName = "persistence-unit-from-persistence-xml", type = PersistenceContextType.TRANSACTION)
 	private EntityManager manageStatelessEntities;
@@ -44,7 +49,6 @@ public class CalendarEventService {
 		System.out.println("Reminder Sent");
 	}
 	
-	@RolesAllowed({"ADMIN", "USER"})
 	public void add(CalendarEvent event) {
 		
 		
@@ -74,7 +78,6 @@ public class CalendarEventService {
 		
 	}
 	
-	@RolesAllowed("ADMIN")
 	public void remove(CalendarEvent event) {
 		if (!manageStatelessEntities.contains(event)) {
 			event = manageStatelessEntities.merge(event);
@@ -92,17 +95,14 @@ public class CalendarEventService {
 		manageStatelessEntities.flush();
 	}
 	
-	@RolesAllowed({"ADMIN", "USER"})
 	public CalendarEvent findEventById(Integer entityId) {
 		return manageStatelessEntities.find(CalendarEvent.class, entityId);
 	}
 	
-	@RolesAllowed({"ADMIN", "USER"})
 	public CalendarEvent findById(Long id) {
 		return manageStatelessEntities.find(CalendarEvent.class, id);
 	}
 	
-	@RolesAllowed({"ADMIN", "USER"})
 	public void update(CalendarEvent event) {
 
 		

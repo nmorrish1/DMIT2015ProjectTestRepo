@@ -25,7 +25,8 @@ import lombok.Setter;
 public class CalendarEventController implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = Logger.getLogger(CalendarEventController.class.getName());
+	@Inject
+	private static Logger logger;
 	
 	@Inject
 	private CalendarEventService eventService;
@@ -46,13 +47,17 @@ public class CalendarEventController implements Serializable{
 	@Getter @Setter 
 	private boolean editMode = false;
 	
+	//Change back to true if email panel ajax is working
+	@Getter @Setter
+	private boolean hideEmailEntry = false;
+	
 	@PostConstruct
 	void init() {
 		try {
 			events = eventService.listAllEvents();
 		} catch (Exception e) {
 			Messages.addGlobalError("Error loading events");
-			log.fine(e.getMessage());
+			logger.fine(e.getMessage());
 		}
 	}
 	
@@ -68,6 +73,9 @@ public class CalendarEventController implements Serializable{
 				Messages.addGlobalError("Error: the reminder will take place in the past");
 				
 				
+			} else if(currentEvent.getReminderNumber() > 0 && currentEvent.getReminderEmail().isEmpty()) {
+				Messages.addGlobalError("Error: please enter an email address to send the reminder to");
+				
 			} else if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
 				eventService.add(currentEvent);
 				currentEvent = new CalendarEvent();
@@ -82,7 +90,7 @@ public class CalendarEventController implements Serializable{
 			
 		} catch (Exception e) {
 			Messages.addGlobalError("Error: could not add event");
-			log.fine(e.getMessage());
+			logger.fine(e.getMessage());
 		}
 		
 		return outcome;
@@ -100,7 +108,7 @@ public class CalendarEventController implements Serializable{
 					}
 				} catch (Exception e) {
 					Messages.addGlobalError("Query unsucessful");
-					log.fine(e.getMessage());	
+					logger.fine(e.getMessage());	
 				}	
 			} else {
 				Faces.navigate("list?faces-redirect=true");	
@@ -110,19 +118,36 @@ public class CalendarEventController implements Serializable{
 	
 	public String update() {
 		String outcome = null;
+		Date currentDate = new Date(System.currentTimeMillis());
 		
-		try {
-			eventService.update(currentEvent);
-			currentEvent = new CalendarEvent();
-			editMode = false;
-			editId = null;
+		if(		currentDate.compareTo(DateUtils.addMinutes(currentEvent.getStartDate(), -1 * currentEvent.getReminderNumber())) > 0
+				&& currentEvent.getReminderNumber() > 0) {
 			
-			Messages.addFlashGlobalInfo("Update was succesful");
-			outcome = "list?faces-redirect=true";
-		} catch (Exception e) {
-			Messages.addGlobalError("Update was not successful");
-			log.fine(e.getMessage());
+			Messages.addGlobalError("Error: the reminder will take place in the past");
+			
+			
+		} else if(currentEvent.getReminderNumber() > 0 && currentEvent.getReminderEmail().isEmpty()) {
+			Messages.addGlobalError("Error: please enter an email address to send the reminder to");
+			
+		} else if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
+			try {
+				eventService.update(currentEvent);
+				currentEvent = new CalendarEvent();
+				editMode = false;
+				editId = null;
+				
+				Messages.addFlashGlobalInfo("Update was succesful");
+				outcome = "list?faces-redirect=true";
+			} catch (Exception e) {
+				Messages.addGlobalError("Update was not successful");
+				logger.fine(e.getMessage());
+			}
+			
+		} else {
+			Messages.addGlobalError("Event end date cannot come before event start date");
 		}
+		
+		
 		
 		return outcome;
 	}
@@ -136,7 +161,7 @@ public class CalendarEventController implements Serializable{
 			Faces.redirect("ListEvent.xhtml");
 		} catch (Exception e) {
 			Messages.addGlobalError("Error: event was not deleted.");
-			log.fine(e.getMessage());
+			logger.fine(e.getMessage());
 		}
 		
 		return nextUrl;
@@ -148,6 +173,14 @@ public class CalendarEventController implements Serializable{
 		editMode = false;
 		Faces.redirect("ListEvent.xhtml");
 		return "list?faces-redirect=true";
+	}
+	
+	public void emailBoxToggle() {
+		if(currentEvent.getReminderNumber() > 0) {
+			hideEmailEntry = false;
+		} else {
+			hideEmailEntry = true;
+		}
 	}
 
 }
