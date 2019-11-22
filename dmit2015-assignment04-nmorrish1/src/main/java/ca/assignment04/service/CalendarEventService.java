@@ -1,6 +1,7 @@
 package ca.assignment04.service;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -50,7 +51,6 @@ public class CalendarEventService {
 		
 		if (event.getReminderNumber() > 0) {
 			
-			
 			ScheduleExpression scheduleExpression = new ScheduleExpression();
 
 		    GregorianCalendar calendar = new GregorianCalendar();
@@ -68,8 +68,6 @@ public class CalendarEventService {
 			timerConfig.setInfo(event);
 			
 		    timerService.createCalendarTimer(scheduleExpression, timerConfig);
-
-			
 		}
 		
 		manageStatelessEntities.persist(event);
@@ -81,6 +79,15 @@ public class CalendarEventService {
 		if (!manageStatelessEntities.contains(event)) {
 			event = manageStatelessEntities.merge(event);
 		}
+		Collection<Timer> activeTimers = timerService.getAllTimers();
+		for(Timer currentTimer : activeTimers) {
+			CalendarEvent listEvent = (CalendarEvent) currentTimer.getInfo();
+			if (listEvent.getEventId().equals(listEvent.getEventId())) {
+				currentTimer.cancel();
+				break;
+			}
+		}
+		
 		manageStatelessEntities.remove(event);
 		manageStatelessEntities.flush();
 	}
@@ -97,8 +104,41 @@ public class CalendarEventService {
 	
 	@RolesAllowed({"ADMIN", "USER"})
 	public void update(CalendarEvent event) {
+
+		
+		Collection<Timer> activeTimers = timerService.getAllTimers();
+		for(Timer currentTimer : activeTimers) {
+			CalendarEvent listEvent = (CalendarEvent) currentTimer.getInfo();
+			if (listEvent.getEventId().equals(listEvent.getEventId())) {
+				currentTimer.cancel();
+				break;
+			}
+		}
+		
+		if (event.getReminderNumber() > 0) {
+					
+			ScheduleExpression scheduleExpression = new ScheduleExpression();
+
+		    GregorianCalendar calendar = new GregorianCalendar();
+		    
+		    calendar.setTime(DateUtils.addMinutes(event.getStartDate(), -1 * event.getReminderNumber()));
+		    
+			scheduleExpression.year(calendar.get(Calendar.YEAR));
+			scheduleExpression.month(calendar.get(Calendar.MONTH) + 1);
+			scheduleExpression.dayOfMonth(calendar.get(Calendar.DAY_OF_MONTH));
+			scheduleExpression.hour(calendar.get(Calendar.HOUR_OF_DAY));
+			scheduleExpression.minute(calendar.get(Calendar.MINUTE));
+			scheduleExpression.second(0);
+			
+			TimerConfig timerConfig = new TimerConfig();
+			timerConfig.setInfo(event);
+			
+		    timerService.createCalendarTimer(scheduleExpression, timerConfig);
+		}
+		
 		manageStatelessEntities.merge(event);
 		manageStatelessEntities.flush();
+		
 	}
 	
 	public List<CalendarEvent> listAllEvents(){

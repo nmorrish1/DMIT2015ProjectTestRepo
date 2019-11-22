@@ -1,14 +1,17 @@
 package ca.assignment04.web;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.time.DateUtils;
+import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
@@ -18,9 +21,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Named
-@ApplicationScoped
-public class CalendarEventController {
-	
+@ViewScoped
+public class CalendarEventController implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	private static Logger log = Logger.getLogger(CalendarEventController.class.getName());
 	
 	@Inject
@@ -56,8 +60,15 @@ public class CalendarEventController {
 		String outcome = null;
 		
 		try {
+			Date currentDate = new Date(System.currentTimeMillis());
 			
-			if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
+			if(		currentDate.compareTo(DateUtils.addMinutes(currentEvent.getStartDate(), -1 * currentEvent.getReminderNumber())) > 0
+					&& currentEvent.getReminderNumber() > 0) {
+				
+				Messages.addGlobalError("Error: the reminder will take place in the past");
+				
+				
+			} else if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
 				eventService.add(currentEvent);
 				currentEvent = new CalendarEvent();
 				Messages.addFlashGlobalInfo("Event successfully added to calendar");
