@@ -1,4 +1,4 @@
-package ca.assignment04.service;
+package ca.assignment05.service;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -21,15 +21,19 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.security.enterprise.SecurityContext;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import ca.assignment04.entities.CalendarEvent;
-import ca.assignment04.mail.SendMail;
+import ca.assignment05.entities.CalendarEvent;
+import ca.assignment05.mail.SendMail;
 
 @Stateless
 @Interceptors({EventInterceptor.class})
 public class CalendarEventService {
+	
+	@Inject
+	private SecurityContext securityContext;
 	
 	@Inject
 	private Logger logger;
@@ -49,8 +53,10 @@ public class CalendarEventService {
 		System.out.println("Reminder Sent");
 	}
 	
+	@RolesAllowed(value = {"**"})
 	public void add(CalendarEvent event) {
-		
+		String username = securityContext.getCallerPrincipal().getName();
+		event.setUsername(username);
 		
 		
 		if (event.getReminderNumber() > 0) {
@@ -78,6 +84,7 @@ public class CalendarEventService {
 		
 	}
 	
+	@RolesAllowed("**")
 	public void remove(CalendarEvent event) {
 		if (!manageStatelessEntities.contains(event)) {
 			event = manageStatelessEntities.merge(event);
@@ -95,14 +102,17 @@ public class CalendarEventService {
 		manageStatelessEntities.flush();
 	}
 	
+	@RolesAllowed("**")
 	public CalendarEvent findEventById(Integer entityId) {
 		return manageStatelessEntities.find(CalendarEvent.class, entityId);
 	}
 	
+	@RolesAllowed("**")
 	public CalendarEvent findById(Long id) {
 		return manageStatelessEntities.find(CalendarEvent.class, id);
 	}
 	
+	@RolesAllowed("**")
 	public void update(CalendarEvent event) {
 
 		
@@ -141,11 +151,15 @@ public class CalendarEventService {
 		
 	}
 	
+	@RolesAllowed("**")
 	public List<CalendarEvent> listAllEvents(){
 		
+		String username = securityContext.getCallerPrincipal().getName();
+		
 		return manageStatelessEntities.createQuery(
-					"SELECT event FROM CalendarEvent event",
+					"SELECT event FROM CalendarEvent event WHERE event.username = :usernameValue ORDER BY event.startDate DESC",
 					CalendarEvent.class)
+				.setParameter("usernameValue", username)
 				.getResultList();
 	}
 

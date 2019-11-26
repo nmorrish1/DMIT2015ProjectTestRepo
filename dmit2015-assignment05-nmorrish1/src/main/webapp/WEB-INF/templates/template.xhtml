@@ -74,6 +74,18 @@
 		            	<b:navLink value="Use Case 2: List Events" href="#{request.contextPath}/ListEvent.xhtml"></b:navLink>
 		        	</b:dropMenu>
 		        </b:navbarLinks>
+		        
+		        <b:navbarLinks pull="right">	
+	                
+	        <h:form style="display:inline" styleClass="form-inline">
+	        
+	        	<h:commandLink value="Logout #{login.firstName} #{login.lastName}" 
+	        		action="#{logout.submit()}" 
+	       			rendered="#{not empty request.userPrincipal}">
+	       		</h:commandLink>	        
+	     
+	        </h:form>
+		</b:navbarLinks>
 		    </b:navBar>
 		</header>
 	

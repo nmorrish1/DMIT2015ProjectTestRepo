@@ -1,10 +1,10 @@
-package ca.assignment04.mail;
+package ca.assignment05.mail;
 
 import java.util.Properties;
 
 import org.jasypt.util.text.AES256TextEncryptor;
 
-import ca.assignment04.entities.CalendarEvent;
+import ca.assignment05.entities.CalendarEvent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

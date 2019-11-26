@@ -1,4 +1,4 @@
-package ca.assignment04.web;
+package ca.assignment05.web;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,8 +15,8 @@ import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
-import ca.assignment04.entities.CalendarEvent;
-import ca.assignment04.service.CalendarEventService;
+import ca.assignment05.entities.CalendarEvent;
+import ca.assignment05.service.CalendarEventService;
 import lombok.Getter;
 import lombok.Setter;
 

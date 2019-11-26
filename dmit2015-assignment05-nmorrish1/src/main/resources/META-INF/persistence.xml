@@ -6,7 +6,7 @@
 	<persistence-unit name="prod" transaction-type="JTA" />
 	
 	<persistence-unit name="persistence-unit-from-persistence-xml">
-		<jta-data-source>java:app/datasources/assignment04/assignment04DS</jta-data-source>
+		<jta-data-source>java:app/datasources/assignment05/assignment05DS</jta-data-source>
 
 		<!--  <class>ca.assignment04.entities.CalendarEvent</class>
 
@@ -14,7 +14,7 @@
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-			<property name="javax.persistence.schema-generation.database.action" value="create" />
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
 		</properties>
 	</persistence-unit>
 </persistence>

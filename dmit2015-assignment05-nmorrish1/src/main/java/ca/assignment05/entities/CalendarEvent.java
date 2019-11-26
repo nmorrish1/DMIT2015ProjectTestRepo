@@ -1,4 +1,4 @@
-package ca.assignment04.entities;
+package ca.assignment05.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -55,6 +55,10 @@ public class CalendarEvent implements Serializable {
 	@Column(name="ReminderEmail")
 	//@Pattern(regexp="^.+@.+\\.[a-zA-Z]{2,4}$", message = "Please enter a valid email address")
 	private String reminderEmail;
+	
+	@Column(nullable = false)
+	@NotBlank(message = "Username is required")
+	private String username;
 	
 	
 	
