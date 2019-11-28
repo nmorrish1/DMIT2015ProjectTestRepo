@@ -113,10 +113,35 @@
 		    <artifactId>api-all</artifactId>
 		    <version>2.0.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>mssql-jdbc</artifactId>
+		    <version>7.4.1.jre8</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
-		<finalName>dmit2015-assignment04-nmorrish1</finalName>
+		<finalName>dmit2015-assignment05-nmorrish1</finalName>
+		
+		<!-- https://docs.jboss.org/wildfly/plugins/maven/latest/examples/deployment-example.html -->
+		<plugins>
+			<plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>2.0.1.Final</version>
+                <configuration>
+                	<hostname>DMIT-DEV1.nait.ca</hostname>
+                	<port>9990</port>
+                	<username>nmorrish1</username>
+                	<password>Password2015</password>
+                </configuration>
+            </plugin>
+		</plugins>
 	</build>
+	
+	
 
 </project>
