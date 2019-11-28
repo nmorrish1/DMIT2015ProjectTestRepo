@@ -50,11 +50,19 @@
 				<h3>Discussion</h3>
 				<p>For this assignment, I have completed the following tasks:</p>
 				<ul>
-					<li></li>
-					<li></li>
-
+					<li>All Web application URLs are transported over HTTPS</li>
+					<li>Intranet (LDAP) users can create, edit, and list their own events</li>
+					<li>Anonymous users can view calendar events for all users, but cannot edit events without logging in.</li>
+					<li>Logged in users can logout.</li>
+					<li>After 5 failed login attempts, users are redirected to <a href="https://www.nait.ca/programs/dmit-computer-software-development?term=2020-winter">https://www.nait.ca/programs/dmit-computer-software-development?term=2020-winter</a></li>
+					<li>Authenticated LDAP Users have their name displayed (in the top right)</li>
+					<li>Authenticated LDAP users can have reminders sent to their account email</li>
+					<li>Custom error pages for HTTP status 401, 403, 404, and 500</li>
 				</ul>
-				<p></p>
+				<p>Known issues:</p>
+				<ul>
+					<li>Clicking on urls to Create/Edit when initially logged out will redirect users to the login page. After successfully logging in, the Create/Edit page does not display user name in the top right as it should.</li>
+				</ul>
 				<p>generic USER Logins as follows:</p>
 				<ul>
 					<li>Username: dmit2015</li>

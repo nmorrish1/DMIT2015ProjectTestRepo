@@ -1,10 +1,12 @@
 package security.web;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.security.enterprise.AuthenticationStatus;
@@ -13,6 +15,7 @@ import javax.security.enterprise.authentication.mechanism.http.AuthenticationPar
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
@@ -82,6 +85,15 @@ private static final long serialVersionUID = 1L;
 			case SEND_CONTINUE:
 				queryLdapUserInfo();
 				Faces.responseComplete();
+				
+//				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//				String url = request.getRequestURL().toString();
+//				String uri = request.getRequestURI();
+//				
+//				System.out.println("URL: " + url);
+//				System.out.println("URI: " + uri);
+				
+				
 				break;
 			case SEND_FAILURE:
 				loginAttempts += 1;

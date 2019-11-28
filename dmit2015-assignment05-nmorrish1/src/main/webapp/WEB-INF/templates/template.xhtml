@@ -67,7 +67,7 @@
 	<b:container style="min-height:100%;">
 	<div style="margin-bottom:5%; min-height:95%;">
 		<header>
-			<b:navBar brand="DMIT2015 Assignment 04" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''">
+			<b:navBar brand="DMIT2015 Assignment 05" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''">
 		    	<b:navbarLinks>
 					<b:dropMenu value="Use Cases">
 		            	<b:navLink value="Use Case 1: Create Event" href="#{request.contextPath}/CreateEvent.xhtml"></b:navLink>
@@ -77,12 +77,16 @@
 		        
 		        <b:navbarLinks pull="right">	
 	                
-	        <h:form style="display:inline" styleClass="form-inline">
+	        <h:form style="display:inline; line-height:39px;" styleClass="form-inline">
+	        
+	        	<c:if test="#{empty request.userPrincipal}">
+					<h:link value="Login" outcome="/security/customLogin"/> 
+				</c:if>      
 	        
 	        	<h:commandLink value="Logout #{login.displayName}" 
 	        		action="#{logout.submit()}" 
 	       			rendered="#{not empty request.userPrincipal}">
-	       		</h:commandLink>	        
+	       		</h:commandLink>	  
 	     
 	        </h:form>
 		</b:navbarLinks>
