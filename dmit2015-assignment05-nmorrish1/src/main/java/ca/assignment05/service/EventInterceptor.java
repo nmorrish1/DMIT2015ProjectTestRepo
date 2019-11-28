@@ -25,7 +25,7 @@ public class EventInterceptor {
 		logger.info("Intercepting invoke to method: " + methodName);
 		
 		if (methodName.matches("^add.*$") || methodName.matches("^remove.*$") || methodName.matches("^update.*$")) {
-			if (!sessionContext.isCallerInRole(SecurityRole.USER.toString())) {
+			if (!sessionContext.isCallerInRole("**")) {
 				String systemMessage = String.format("Unauthorized access to method: %s from IP %s and user %s", methodName, Faces.getRemoteAddr(), Faces.getRemoteUser());			
 				logger.warning(systemMessage);
 				

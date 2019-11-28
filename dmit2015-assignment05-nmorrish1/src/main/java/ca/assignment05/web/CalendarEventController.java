@@ -19,11 +19,15 @@ import ca.assignment05.entities.CalendarEvent;
 import ca.assignment05.service.CalendarEventService;
 import lombok.Getter;
 import lombok.Setter;
+import security.web.Login;
 
 @Named
 @ViewScoped
 public class CalendarEventController implements Serializable{
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private Login login;
 
 	@Inject
 	private Logger logger;
@@ -37,9 +41,6 @@ public class CalendarEventController implements Serializable{
 	@Getter @Setter
 	@Valid
 	private CalendarEvent currentEvent = new CalendarEvent();
-	
-	@Getter @Setter
-	private String reminderEmail = null;
 	
 	@Getter @Setter 
 	private Long editId = null;
@@ -55,6 +56,7 @@ public class CalendarEventController implements Serializable{
 	void init() {
 		try {
 			events = eventService.listAllEvents();
+			currentEvent.setReminderEmail(login.getUserEmail());
 		} catch (Exception e) {
 			Messages.addGlobalError("Error loading events");
 			logger.fine(e.getMessage());
@@ -66,6 +68,7 @@ public class CalendarEventController implements Serializable{
 		
 		try {
 			Date currentDate = new Date(System.currentTimeMillis());
+			currentEvent.setReminderEmail(login.getUserEmail());
 			
 			if(		currentDate.compareTo(DateUtils.addMinutes(currentEvent.getStartDate(), -1 * currentEvent.getReminderNumber())) > 0
 					&& currentEvent.getReminderNumber() > 0) {
@@ -80,7 +83,7 @@ public class CalendarEventController implements Serializable{
 				eventService.add(currentEvent);
 				currentEvent = new CalendarEvent();
 				Messages.addFlashGlobalInfo("Event successfully added to calendar");
-				outcome = "list?faces-redirect=true";
+				outcome = "ListEvent?faces-redirect=true";
 				
 				events = eventService.listAllEvents();
 			} else {
@@ -98,7 +101,10 @@ public class CalendarEventController implements Serializable{
 	
 	public void edit() {
 		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
-			if (editId != null) {
+			if (currentEvent.getUsername() != login.getUsername()) {
+				Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/401.xhtml");
+					
+			} else if (editId != null) {
 				try {
 					currentEvent = eventService.findById(editId);
 					if (currentEvent != null) {
@@ -109,9 +115,10 @@ public class CalendarEventController implements Serializable{
 				} catch (Exception e) {
 					Messages.addGlobalError("Query unsucessful");
 					logger.fine(e.getMessage());	
-				}	
+				}
+				
 			} else {
-				Faces.navigate("list?faces-redirect=true");	
+				Faces.navigate("ListEvent?faces-redirect=true");	
 			}
 		} 
 	}

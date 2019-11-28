@@ -39,7 +39,7 @@ public class Login  implements Serializable {
 	
 private static final long serialVersionUID = 1L;
 	
-	private static final int MAX_ATTEMPTS_ALLOWED = 3;
+	private static final int MAX_ATTEMPTS_ALLOWED = 5;
 	
 	@Inject
 	private Logger logger;
@@ -52,6 +52,9 @@ private static final long serialVersionUID = 1L;
 
 	@Getter
 	private String lastName = "No Last Name";
+	
+	@Getter
+	private String userEmail = "nmorrish@ualberta.ca"; //default user email
 
 	@Getter
 	private int loginAttempts = 0;
@@ -72,12 +75,12 @@ private static final long serialVersionUID = 1L;
 
 	public void submit() {
 		if (loginAttempts >= MAX_ATTEMPTS_ALLOWED) {
-			Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/403.xhtml");
+			Faces.redirectPermanent("https://www.nait.ca/programs/dmit-computer-software-development?term=2020-winter");
 		}
 			
 		switch (continueAuthentication()) {
 			case SEND_CONTINUE:
-				//queryLdapUserInfo();
+				queryLdapUserInfo();
 				Faces.responseComplete();
 				break;
 			case SEND_FAILURE:
@@ -91,7 +94,7 @@ private static final long serialVersionUID = 1L;
 			case SUCCESS:
 				Faces.getFlash().setKeepMessages(true);
 				Messages.addFlashGlobalInfo("Login succeed");
-				//queryLdapUserInfo();
+				queryLdapUserInfo();
 				Faces.redirect(Faces.getRequestContextPath() + "/index.xhtml");		// added for Caller-Initiated Authentication
 				break;
 			case NOT_DONE:
@@ -110,46 +113,47 @@ private static final long serialVersionUID = 1L;
 					.credential(credential));
 	}
 	
-//	private void queryLdapUserInfo() {
-//		// Fetch displayName and mail attribute name from LDAP server
-//		try {
-//			final String LDAP_SERVER = "metro-ds1.nait.ca";
-//			final String LDAP_BIND_CN = "cn=DMIT Student1,ou=DMITStudentRestricted,ou=Student,ou=DMIT,ou=SICET,dc=nait,dc=ca";
-//			final String LDAP_BIND_PASSWORD = "Password2015";
-//			final String LDAP_QUERY_DN = "OU=Accounts,dc=nait,dc=ca";
-//			
-//			LdapConnection connection = new LdapNetworkConnection(LDAP_SERVER);
-//			connection.bind(LDAP_BIND_CN, LDAP_BIND_PASSWORD);
-//			Dn queryDn = new Dn(LDAP_QUERY_DN);
-//			SearchRequest request = new SearchRequestImpl();
-//			request.setScope(SearchScope.SUBTREE);			
-//			request.addAttributes("*");
-//			request.setBase(queryDn);			
-//			request.setFilter(String.format("(cn=%s)", username));
-//			
-//			// Process the request
-//			SearchCursor searchCursor = connection.search(request);
-//			if (searchCursor.next()) {
-//				Response response = searchCursor.get();				
-//				if (response instanceof SearchResultEntry) {
-//					Entry resultEntry = ((SearchResultEntry) response).getEntry();
-//					displayName = resultEntry.get("displayName").getString();
-//					lastName = resultEntry.get("sn").getString();
-//					firstName = resultEntry.get("givenName").getString();
-//					
-//				} else {
-//					logger.info("No response from LDAP query");
-//				}				
-//			} else {
-//				logger.info("Username not found on LDAP server");
-//			}
-//			// Unbind
-//			connection.unBind();
-//			// Close the connection
-//			connection.close();			
-//		} catch (Exception  e) {
-//			logger.warning("Exception with LDAP query :" + e.getMessage());
-//		}
-//	}
+	private void queryLdapUserInfo() {
+		// Fetch displayName and mail attribute name from LDAP server
+		try {
+			final String LDAP_SERVER = "metro-ds1.nait.ca";
+			final String LDAP_BIND_CN = "cn=DMIT Student1,ou=DMITStudentRestricted,ou=Student,ou=DMIT,ou=SICET,dc=nait,dc=ca";
+			final String LDAP_BIND_PASSWORD = "Password2015";
+			final String LDAP_QUERY_DN = "OU=Accounts,dc=nait,dc=ca";
+			
+			LdapConnection connection = new LdapNetworkConnection(LDAP_SERVER);
+			connection.bind(LDAP_BIND_CN, LDAP_BIND_PASSWORD);
+			Dn queryDn = new Dn(LDAP_QUERY_DN);
+			SearchRequest request = new SearchRequestImpl();
+			request.setScope(SearchScope.SUBTREE);			
+			request.addAttributes("*");
+			request.setBase(queryDn);			
+			request.setFilter(String.format("(cn=%s)", username));
+			
+			// Process the request
+			SearchCursor searchCursor = connection.search(request);
+			if (searchCursor.next()) {
+				Response response = searchCursor.get();				
+				if (response instanceof SearchResultEntry) {
+					Entry resultEntry = ((SearchResultEntry) response).getEntry();
+					displayName = resultEntry.get("displayName").getString();
+					lastName = resultEntry.get("sn").getString();
+					firstName = resultEntry.get("givenName").getString();
+					userEmail = resultEntry.get("mail").getString();
+					
+				} else {
+					logger.info("No response from LDAP query");
+				}				
+			} else {
+				logger.info("Username not found on LDAP server");
+			}
+			// Unbind
+			connection.unBind();
+			// Close the connection
+			connection.close();			
+		} catch (Exception  e) {
+			logger.warning("Exception with LDAP query :" + e.getMessage());
+		}
+	}
 
 }

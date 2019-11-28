@@ -30,6 +30,7 @@ import ca.assignment05.mail.SendMail;
 
 @Stateless
 @Interceptors({EventInterceptor.class})
+@PermitAll
 public class CalendarEventService {
 	
 	@Inject
@@ -151,16 +152,27 @@ public class CalendarEventService {
 		
 	}
 	
-	@RolesAllowed("**")
+	//@RolesAllowed("**")
 	public List<CalendarEvent> listAllEvents(){
 		
-		String username = securityContext.getCallerPrincipal().getName();
-		
-		return manageStatelessEntities.createQuery(
+		if(securityContext.getCallerPrincipal() != null) {
+			
+			String username = securityContext.getCallerPrincipal().getName();
+			
+			return manageStatelessEntities.createQuery(
 					"SELECT event FROM CalendarEvent event WHERE event.username = :usernameValue ORDER BY event.startDate DESC",
 					CalendarEvent.class)
 				.setParameter("usernameValue", username)
 				.getResultList();
+			
+		} else {
+			return manageStatelessEntities.createQuery(
+					"SELECT event FROM CalendarEvent event ORDER BY event.startDate DESC",
+					CalendarEvent.class)
+				.getResultList();
+		}
+		
+		
 	}
 
 }

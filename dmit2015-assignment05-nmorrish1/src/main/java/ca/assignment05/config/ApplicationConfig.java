@@ -30,15 +30,15 @@ import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefi
 			password="sa")
 })
 
-//@LdapIdentityStoreDefinition(
-//		url = "ldap://metro-ds1.nait.ca:389",
-//		callerSearchBase = "dc=nait,dc=ca",
-//		callerNameAttribute = "SamAccountName",	// SamAccountName or UserPrincipalName
-//		groupSearchBase = "dc=nait,dc=ca",
-//		bindDn = "cn=DMIT Student1,ou=DMITStudentRestricted,ou=Student,ou=DMIT,ou=SICET,dc=nait,dc=ca",
-//		bindDnPassword = "Password2015",
-//		priority = 5
-//	)
+@LdapIdentityStoreDefinition(
+		url = "ldap://metro-ds1.nait.ca:389",
+		callerSearchBase = "dc=nait,dc=ca",
+		callerNameAttribute = "SamAccountName",	// SamAccountName or UserPrincipalName
+		groupSearchBase = "dc=nait,dc=ca",
+		bindDn = "cn=DMIT Student1,ou=DMITStudentRestricted,ou=Student,ou=DMIT,ou=SICET,dc=nait,dc=ca",
+		bindDnPassword = "Password2015",
+		priority = 5
+	)
 
 //@BasicAuthenticationMechanismDefinition(realmName = "jaspitest")
 
