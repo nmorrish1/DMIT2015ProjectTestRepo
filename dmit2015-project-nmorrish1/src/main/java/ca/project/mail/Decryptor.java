@@ -1,4 +1,4 @@
-package ca.assignment05.mail;
+package ca.project.mail;
 
 import org.jasypt.util.text.AES256TextEncryptor;
 

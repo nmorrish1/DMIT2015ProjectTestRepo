@@ -1,4 +1,4 @@
-package ca.assignment05.service;
+package ca.project.service;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -25,8 +25,8 @@ import javax.security.enterprise.SecurityContext;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import ca.assignment05.entities.CalendarEvent;
-import ca.assignment05.mail.SendMail;
+import ca.project.entities.CalendarEvent;
+import ca.project.mail.SendMail;
 
 @Stateless
 @Interceptors({EventInterceptor.class})

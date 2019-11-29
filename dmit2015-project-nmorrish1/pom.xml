@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>dmit2015.assignment04</groupId>
-	<artifactId>dmit2015-assignment04-nmorrish1</artifactId>
+	<groupId>dmit2015.project</groupId>
+	<artifactId>dmit2015-project-nmorrish1</artifactId>
 	<version>2019.11.13</version>
 	<packaging>war</packaging>
 
@@ -124,7 +124,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>dmit2015-assignment05-nmorrish1</finalName>
+		<finalName>dmit2015-project-nmorrish1</finalName>
 		
 		<!-- https://docs.jboss.org/wildfly/plugins/maven/latest/examples/deployment-example.html -->
 		<plugins>

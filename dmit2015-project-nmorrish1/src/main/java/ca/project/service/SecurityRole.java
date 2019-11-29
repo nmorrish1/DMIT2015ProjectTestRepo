@@ -1,4 +1,4 @@
-package ca.assignment05.service;
+package ca.project.service;
 
 public enum SecurityRole {
 	USER, ADMIN;

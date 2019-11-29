@@ -1,4 +1,4 @@
-package ca.assignment05.config;
+package ca.project.config;
 
 import javax.annotation.sql.DataSourceDefinition;
 import javax.annotation.sql.DataSourceDefinitions;

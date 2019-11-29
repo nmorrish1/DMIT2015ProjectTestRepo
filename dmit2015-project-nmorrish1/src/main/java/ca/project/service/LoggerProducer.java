@@ -1,4 +1,4 @@
-package ca.assignment05.service;
+package ca.project.service;
 
 import java.util.logging.Logger;
 

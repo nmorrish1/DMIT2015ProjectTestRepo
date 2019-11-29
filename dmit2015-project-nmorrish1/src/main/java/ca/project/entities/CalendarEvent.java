@@ -1,4 +1,4 @@
-package ca.assignment05.entities;
+package ca.project.entities;
 
 import java.io.Serializable;
 import java.util.Date;
