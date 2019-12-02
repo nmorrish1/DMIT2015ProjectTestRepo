@@ -52,7 +52,7 @@ public class CalendarEvent implements Serializable {
 	//@PositiveOrZero(message = "Minutes to reminder must be greater than or equal to zero")
 	private Integer reminderNumber;
 	
-	@Column(name="ReminderEmail")
+	@Column(name="UserEmail")
 	//@Pattern(regexp="^.+@.+\\.[a-zA-Z]{2,4}$", message = "Please enter a valid email address")
 	private String reminderEmail;
 	

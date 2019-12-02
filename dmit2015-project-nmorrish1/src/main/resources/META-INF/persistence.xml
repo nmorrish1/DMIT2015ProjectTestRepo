@@ -6,7 +6,7 @@
 	<persistence-unit name="prod" transaction-type="JTA" />
 	
 	<persistence-unit name="persistence-unit-from-persistence-xml">
-		<jta-data-source>java:app/datasources/assignment05/assignment05DS</jta-data-source>
+		<jta-data-source>java:app/datasources/project/projectDS</jta-data-source>
 
 		<!--  <class>ca.assignment04.entities.CalendarEvent</class>
 
