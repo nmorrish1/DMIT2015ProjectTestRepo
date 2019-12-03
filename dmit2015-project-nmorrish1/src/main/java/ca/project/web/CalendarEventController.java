@@ -16,7 +16,7 @@ import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
 import ca.project.entities.CalendarEvent;
-import ca.project.service.CalendarEventService;
+import ca.project.service.CalendarEventBean;
 import lombok.Getter;
 import lombok.Setter;
 import security.web.Login;
@@ -33,7 +33,7 @@ public class CalendarEventController implements Serializable{
 	private Logger logger;
 	
 	@Inject
-	private CalendarEventService eventService;
+	private CalendarEventBean eventService;
 	
 	@Getter
 	private List<CalendarEvent> events;
@@ -101,7 +101,7 @@ public class CalendarEventController implements Serializable{
 	
 	public void edit() {
 		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
-			if (currentEvent.getUsername() != login.getUsername()) {
+			if (currentEvent.getUserId() != null) {//login.getUserId()) {
 				Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/401.xhtml");
 					
 			} else if (editId != null) {

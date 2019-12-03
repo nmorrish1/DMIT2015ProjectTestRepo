@@ -31,7 +31,7 @@ import ca.project.mail.SendMail;
 @Stateless
 @Interceptors({EventInterceptor.class})
 @PermitAll
-public class CalendarEventService {
+public class CalendarEventBean {
 	
 	@Inject
 	private SecurityContext securityContext;
@@ -57,7 +57,7 @@ public class CalendarEventService {
 	@RolesAllowed(value = {"**"})
 	public void add(CalendarEvent event) {
 		String username = securityContext.getCallerPrincipal().getName();
-		event.setUsername(username);
+		event.setUserId(username);
 		
 		
 		if (event.getReminderNumber() > 0) {

@@ -49,6 +49,9 @@ private static final long serialVersionUID = 1L;
 	
 	@Getter
 	private String displayName = "No Assigned Display Name";
+	
+	@Getter
+	private Integer userId = -1;
 
 	@Getter
 	private String firstName = "No First Name";
@@ -116,48 +119,4 @@ private static final long serialVersionUID = 1L;
 					.newAuthentication(isNew)	// added for Caller-Initiated Authentication
 					.credential(credential));
 	}
-//	
-//	private void queryLdapUserInfo() {
-//		// Fetch displayName and mail attribute name from LDAP server
-//		try {
-//			final String LDAP_SERVER = "metro-ds1.nait.ca";
-//			final String LDAP_BIND_CN = "cn=DMIT Student1,ou=DMITStudentRestricted,ou=Student,ou=DMIT,ou=SICET,dc=nait,dc=ca";
-//			final String LDAP_BIND_PASSWORD = "Password2015";
-//			final String LDAP_QUERY_DN = "OU=Accounts,dc=nait,dc=ca";
-//			
-//			LdapConnection connection = new LdapNetworkConnection(LDAP_SERVER);
-//			connection.bind(LDAP_BIND_CN, LDAP_BIND_PASSWORD);
-//			Dn queryDn = new Dn(LDAP_QUERY_DN);
-//			SearchRequest request = new SearchRequestImpl();
-//			request.setScope(SearchScope.SUBTREE);			
-//			request.addAttributes("*");
-//			request.setBase(queryDn);			
-//			request.setFilter(String.format("(cn=%s)", username));
-//			
-//			// Process the request
-//			SearchCursor searchCursor = connection.search(request);
-//			if (searchCursor.next()) {
-//				Response response = searchCursor.get();				
-//				if (response instanceof SearchResultEntry) {
-//					Entry resultEntry = ((SearchResultEntry) response).getEntry();
-//					displayName = resultEntry.get("displayName").getString();
-//					lastName = resultEntry.get("sn").getString();
-//					firstName = resultEntry.get("givenName").getString();
-//					userEmail = resultEntry.get("mail").getString();
-//					
-//				} else {
-//					logger.info("No response from LDAP query");
-//				}				
-//			} else {
-//				logger.info("Username not found on LDAP server");
-//			}
-//			// Unbind
-//			connection.unBind();
-//			// Close the connection
-//			connection.close();			
-//		} catch (Exception  e) {
-//			logger.warning("Exception with LDAP query :" + e.getMessage());
-//		}
-//	}
-
 }
