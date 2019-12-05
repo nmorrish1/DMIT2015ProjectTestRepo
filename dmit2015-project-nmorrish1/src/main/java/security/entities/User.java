@@ -33,6 +33,18 @@ public class User implements Serializable{
 	@Column(nullable=false)
 	private String password;
 	
+	@Column(nullable=false)
+	@Pattern(regexp="^.+@.+\\.[a-zA-Z]{2,4}$", message = "Please enter a valid email address")
+	private String email;
+	
+	@Column(nullable=false)
+	private Boolean verified = false;
+	
+	@Column(nullable=false)
+	private Boolean locked = false;
+	
+	
+	
 	@XmlTransient
 	@Transient
 	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$",

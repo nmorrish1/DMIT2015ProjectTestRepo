@@ -1,4 +1,4 @@
-package security.web;
+package ca.defaultUsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CreateRoles {
 		private EntityManager entityManager;
 		
 		@EJB
-		UserBean userBean;
+		CreateUserBean userBean;
 
 		@Transactional
 		@PostConstruct
@@ -52,6 +52,8 @@ public class CreateRoles {
 				entityManager.persist(role3);
 				
 				userDetails.setUsername("user2015");
+				userDetails.setEmail("nmorrish@ualberta.ca");
+				userDetails.setVerified(true);
 				userDetails.setPlainTextPassword("Password2015");
 				userDetails.setConfirmedPlainTextPassword("Password2015");
 				

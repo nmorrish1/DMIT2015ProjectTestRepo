@@ -85,9 +85,10 @@
 	        
 	        	<c:if test="#{empty request.userPrincipal}">
 					<h:link value="Login" outcome="/security/customLogin"/> 
+					<!-- <h:link style="padding-left:10px;" value="Create Account" outcome="/security/customLogin"/> -->
 				</c:if>      
 	        
-	        	<h:commandLink value="Logout #{login.displayName}" 
+	        	<h:commandLink value="Logout #{request.userPrincipal.name}" 
 	        		action="#{logout.submit()}" 
 	       			rendered="#{not empty request.userPrincipal}">
 	       		</h:commandLink>	  

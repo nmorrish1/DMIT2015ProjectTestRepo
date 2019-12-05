@@ -2,11 +2,14 @@ package security.service;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -14,9 +17,11 @@ import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 import security.entities.Role;
 import security.entities.User;
+import security.web.SecurityEventInterceptor;
 
 @Singleton
-//@Interceptors({UserSecurityInterceptor.class})
+@Interceptors({SecurityEventInterceptor.class})
+@PermitAll
 public class UserBean {
 	
 	@PersistenceContext
@@ -29,6 +34,7 @@ public class UserBean {
 	private RoleBean roleBean;
 	
 	@Lock(LockType.WRITE)
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public void add(User newUser, String[] roleNames) {
 		
 		if (findUserByUserName(newUser.getUsername()) != null) {
@@ -49,6 +55,7 @@ public class UserBean {
 		
 	}
 	
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public void update(User existingUser, String[] roleNames) {
 		if(roleNames != null && roleNames.length > 0) {
 			existingUser.getRoles().clear();
@@ -75,6 +82,7 @@ public class UserBean {
 		return entityManager.find(User.class, userId);
 	}
 	
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public User findUserByUserName(String userName) {
 		User queryResult = null;
 		
@@ -90,10 +98,12 @@ public class UserBean {
 	}
 	
 	@Lock(LockType.READ)
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public List<User> list(){
 		return entityManager.createQuery("SELECT u FROM User u ORDER BY u.username", User.class).getResultList();
 	}
 	
+	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public void changePassword(String username, String currentPlainTxtPwd, String newPlainTxtPwd) throws Exception {
 		char[] currentPassword = currentPlainTxtPwd.toCharArray();
 		

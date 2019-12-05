@@ -1,4 +1,4 @@
-package ca.project.service;
+package security.web;
 
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ import javax.interceptor.InvocationContext;
 
 import org.omnifaces.util.Faces;
 
-public class EventInterceptor {
+public class SecurityEventInterceptor {
 
 	@Inject
 	private Logger logger;
@@ -25,7 +25,7 @@ public class EventInterceptor {
 		logger.info("Intercepting invoke to method: " + methodName);
 		
 		if (methodName.matches("^add.*$") || methodName.matches("^remove.*$") || methodName.matches("^update.*$")) {
-			if (!sessionContext.isCallerInRole("USER") && !sessionContext.isCallerInRole("ADMIN") && !sessionContext.isCallerInRole("DEVELOPER")) {
+			if (!sessionContext.isCallerInRole("ADMIN") && !sessionContext.isCallerInRole("DEVELOPER")) {
 				String systemMessage = String.format("Unauthorized access to method: %s from IP %s and user %s", methodName, Faces.getRemoteAddr(), Faces.getRemoteUser());			
 				logger.warning(systemMessage);
 				

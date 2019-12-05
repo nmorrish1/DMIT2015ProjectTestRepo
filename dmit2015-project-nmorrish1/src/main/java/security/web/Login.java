@@ -44,8 +44,8 @@ private static final long serialVersionUID = 1L;
 	
 	private static final int MAX_ATTEMPTS_ALLOWED = 5;
 	
-	@Inject
-	private Logger logger;
+//	@Inject
+//	private Logger logger;
 	
 	@Getter
 	private String displayName = "No Assigned Display Name";

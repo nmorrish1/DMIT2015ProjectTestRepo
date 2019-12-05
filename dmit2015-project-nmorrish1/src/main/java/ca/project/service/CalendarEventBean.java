@@ -54,7 +54,7 @@ public class CalendarEventBean {
 		System.out.println("Reminder Sent");
 	}
 	
-	@RolesAllowed(value = {"**"})
+	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public void add(CalendarEvent event) {
 		String username = securityContext.getCallerPrincipal().getName();
 		//event.setUserId(username);
@@ -85,7 +85,7 @@ public class CalendarEventBean {
 		
 	}
 	
-	@RolesAllowed("**")
+	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public void remove(CalendarEvent event) {
 		if (!manageStatelessEntities.contains(event)) {
 			event = manageStatelessEntities.merge(event);
@@ -103,17 +103,17 @@ public class CalendarEventBean {
 		manageStatelessEntities.flush();
 	}
 	
-	@RolesAllowed("**")
+	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public CalendarEvent findEventById(Integer entityId) {
 		return manageStatelessEntities.find(CalendarEvent.class, entityId);
 	}
 	
-	@RolesAllowed("**")
+	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public CalendarEvent findById(Long id) {
 		return manageStatelessEntities.find(CalendarEvent.class, id);
 	}
 	
-	@RolesAllowed("**")
+	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public void update(CalendarEvent event) {
 
 		
@@ -158,6 +158,7 @@ public class CalendarEventBean {
 		if(securityContext.getCallerPrincipal() != null) {
 			
 			String username = securityContext.getCallerPrincipal().getName();
+			//String role = securityContext.getCallerPrincipal()
 			
 			return manageStatelessEntities.createQuery(
 					"SELECT event FROM CalendarEvent event WHERE event.user_id = :useridValue ORDER BY event.startDate DESC",
