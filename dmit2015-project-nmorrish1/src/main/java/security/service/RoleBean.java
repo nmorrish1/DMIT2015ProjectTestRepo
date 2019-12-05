@@ -51,7 +51,7 @@ public class RoleBean {
 		
 		try {
 			queryResult = entityManager.createQuery(
-					"SELECT r FROM Role r WHERE r.roleName := roleNameVale "
+					"SELECT r FROM Role r WHERE r.roleName = :roleNameVale "
 					, Role.class)
 					.setParameter("roleNameVale", roleName)
 					.getSingleResult();

@@ -69,9 +69,13 @@
 		<header>
 			<b:navBar brand="DMIT2015 Assignment 05" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''">
 		    	<b:navbarLinks>
-					<b:dropMenu value="Use Cases">
+					<b:dropMenu value="Calendar Use Cases">
 		            	<b:navLink value="Use Case 1: Create Event" href="#{request.contextPath}/CreateEvent.xhtml"></b:navLink>
 		            	<b:navLink value="Use Case 2: List Events" href="#{request.contextPath}/ListEvent.xhtml"></b:navLink>
+		        	</b:dropMenu>
+		        	<b:dropMenu value="User Use Cases">
+		            	<b:navLink value="Use Case 3: Create User" href="#{request.contextPath}/security/createUser.xhtml"></b:navLink>
+		            	<b:navLink value="Use Case 4: List Users" href="#{request.contextPath}/security/listUser.xhtml"></b:navLink>
 		        	</b:dropMenu>
 		        </b:navbarLinks>
 		        

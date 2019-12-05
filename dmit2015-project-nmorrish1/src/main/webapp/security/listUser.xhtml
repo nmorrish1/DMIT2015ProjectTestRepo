@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="title" value="Assignment 04" />
+
+	<ui:define name="externalstyles">
+
+	</ui:define>
+
+	<ui:define name="internalstyles">
+
+	</ui:define>
+
+	<ui:define name="headscripts">
+
+	</ui:define>
+
+
+	<ui:define name="maincontent">
+		<b:jumbotron>
+			<marquee>
+				<h1>DMIT 2015 Assignment 04</h1>
+			</marquee>
+			<h2>User List</h2>
+		</b:jumbotron>
+
+
+		<h3>List of all users:</h3>
+		
+		<b:messages id="messages" />
+		
+		<b:form>
+			<b:dataTable
+				value="#{loginUserController.users}"
+				var="user"
+				class="user-table">
+					<b:dataTableColumn label="User ID" value="#{user.user_id}"/>
+					<b:dataTableColumn label="User Name" value="#{user.username}"/>
+					<b:dataTableColumn label="User Roles">
+						<ui:repeat var="role" value="#{user.roles}">
+							<h:outputText value="#{role.roleName}, " />
+						</ui:repeat>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Action">					
+						<b:link id="editLink" outcome="editUser"  icon-awesome="edit" icon-size="lg">
+							<f:param name="editId" value="#{user.user_id}" />
+							edit
+						</b:link>
+					</b:dataTableColumn>
+			</b:dataTable>
+		</b:form>
+				
+	</ui:define>
+	<ui:define name="bodyscripts">
+
+	</ui:define>
+</ui:composition>

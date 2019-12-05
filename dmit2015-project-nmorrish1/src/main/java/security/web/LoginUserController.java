@@ -95,8 +95,11 @@ public class LoginUserController implements Serializable {
 			logger.warning("Access Exception: " + e.getMessage());
 			String message = String.format("Remote IP: %s\n Remote User: %s\n", Faces.getRemoteAddr(), Faces.getRemoteUser());			
 			logger.warning(message);
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Error: {0}",  e.getLocalizedMessage());
+			
 		} catch (Exception e) {
-			Messages.addGlobalInfo("Create new {0} was not successful.", User.class.getSimpleName());
+			Messages.addGlobalError("Create new {0} was not successful.", User.class.getSimpleName());
 		}
 		
 		return outcome;
@@ -104,6 +107,28 @@ public class LoginUserController implements Serializable {
 	
 	public String update() {
 		String outcome = null;
+		
+//		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
+//			if (currentEvent.getUser().getUser_id() != login.getUserId()) {
+//				Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/401.xhtml");
+//					
+//			} else if (editId != null) {
+//				try {
+//					currentEvent = eventService.findById(editId);
+//					if (currentEvent != null) {
+//						editMode = true;
+//					} else {
+//						Faces.redirect("ListEvent.xhtml");				
+//					}
+//				} catch (Exception e) {
+//					Messages.addGlobalError("Query unsucessful");
+//					logger.fine(e.getMessage());	
+//				}
+//				
+//			} else {
+//				Faces.navigate("ListEvent?faces-redirect=true");	
+//			}
+//		} 
 		
 		try {
 			String[] groups = selectedRoles.split(",");
@@ -120,7 +145,7 @@ public class LoginUserController implements Serializable {
 			String message = String.format("Remote IP: %s\n Remote User: %s\n", Faces.getRemoteAddr(), Faces.getRemoteUser());			
 			logger.warning(message);	
 		} catch(Exception e) {
-			Messages.addGlobalInfo("Update existing {0} was not successful.", User.class.getSimpleName());
+			Messages.addGlobalError("Update existing {0} was not successful.", User.class.getSimpleName());
 		}
 		
 		return outcome;
@@ -137,6 +162,7 @@ public class LoginUserController implements Serializable {
 			editId = null;
 			Messages.addFlashGlobalInfo("Update existing {0} was successful", User.class.getSimpleName());
 			outcome = "list?faces-redirect=true";
+			Faces.redirect("ListEvent.xhtml");
 			
 		} catch(EJBAccessException e) {
 			Messages.addGlobalInfo(e.getMessage());
@@ -175,6 +201,7 @@ public class LoginUserController implements Serializable {
 	public String cancel() {
 		userDetails = null;
 		editMode = false;
+		Faces.redirect("ListEvent.xhtml");
 		return "list?faces-redirect=true";
 	}
 	

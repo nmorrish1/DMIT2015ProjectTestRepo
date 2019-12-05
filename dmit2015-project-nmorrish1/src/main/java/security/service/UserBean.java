@@ -30,6 +30,11 @@ public class UserBean {
 	
 	@Lock(LockType.WRITE)
 	public void add(User newUser, String[] roleNames) {
+		
+		if (findUserByUserName(newUser.getUsername()) != null) {
+			throw new RuntimeException("The username " + newUser.getUsername() + " already exists");
+			
+		}
 		String hashedPassword = passwordHash.generate(newUser.getPlainTextPassword().toCharArray()); 
 		newUser.setPassword(hashedPassword);
 		
@@ -74,8 +79,8 @@ public class UserBean {
 		User queryResult = null;
 		
 		try {
-			queryResult = entityManager.createQuery("SELECT u FROM User u WHERE u.userName = :usernameValue", User.class)
-					.setParameter("usernameValue", userName)
+			queryResult = entityManager.createQuery("SELECT u FROM User u WHERE upper(u.username) = :usernameValue", User.class)
+					.setParameter("usernameValue", userName.toUpperCase())
 					.getSingleResult();
 		} catch (NoResultException e) {
 			queryResult = null;
