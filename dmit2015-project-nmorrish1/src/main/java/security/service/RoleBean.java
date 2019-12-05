@@ -5,13 +5,15 @@ import java.util.List;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
-import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import security.entities.Role;
+
+
 @Singleton
-//@Interceptors({LoginGroupSecurityInterceptor.class})
+//@Interceptors({GroupSecurityInterceptor.class})
 public class RoleBean {
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -22,7 +24,7 @@ public class RoleBean {
 		if(findRoleByName(roleName) != null) {
 			throw new RuntimeException("The group name " + roleName + " already exists");
 		}
-		Role newRole = new Role(roleName, null);
+		Role newRole = new Role();
 		newRole.setRoleName(roleName);
 		entityManager.persist(newRole);
 	}

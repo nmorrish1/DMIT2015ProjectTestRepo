@@ -101,7 +101,7 @@ public class CalendarEventController implements Serializable{
 	
 	public void edit() {
 		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
-			if (currentEvent.getUserId() != null) {//login.getUserId()) {
+			if (currentEvent.getUser().getUser_id() != login.getUserId()) {
 				Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/401.xhtml");
 					
 			} else if (editId != null) {

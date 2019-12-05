@@ -15,12 +15,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @XmlRootElement(name = "Role")
 @Data
 @Entity
 @NamedQuery(name="Roles.findAll", query="SELECT r FROM Role r")
+@NoArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Role implements Serializable{
 	private static final long serialVersionUID = 1L;

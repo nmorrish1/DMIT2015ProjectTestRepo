@@ -4,6 +4,7 @@ import javax.annotation.sql.DataSourceDefinition;
 import javax.annotation.sql.DataSourceDefinitions;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
+import javax.faces.annotation.FacesConfig.Version;
 import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
@@ -25,7 +26,7 @@ import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefi
 	@DataSourceDefinition(
 			name="java:app/datasources/project/projectDS",
 			className="org.h2.jdbcx.JdbcDataSource",
-			url="jdbc:h2:file:~/assignment05db",
+			url="jdbc:h2:mem:projectDB",
 			user="sa",
 			password="sa")
 })
@@ -50,7 +51,8 @@ import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefi
 
 
 
-@FacesConfig @ApplicationScoped
+@FacesConfig(version = Version.JSF_2_3)
+@ApplicationScoped
 public class ApplicationConfig {
 	
 }

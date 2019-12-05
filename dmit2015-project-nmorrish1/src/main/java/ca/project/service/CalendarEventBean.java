@@ -57,7 +57,7 @@ public class CalendarEventBean {
 	@RolesAllowed(value = {"**"})
 	public void add(CalendarEvent event) {
 		String username = securityContext.getCallerPrincipal().getName();
-		event.setUserId(username);
+		//event.setUserId(username);
 		
 		
 		if (event.getReminderNumber() > 0) {
@@ -160,9 +160,9 @@ public class CalendarEventBean {
 			String username = securityContext.getCallerPrincipal().getName();
 			
 			return manageStatelessEntities.createQuery(
-					"SELECT event FROM CalendarEvent event WHERE event.username = :usernameValue ORDER BY event.startDate DESC",
+					"SELECT event FROM CalendarEvent event WHERE event.user_id = :useridValue ORDER BY event.startDate DESC",
 					CalendarEvent.class)
-				.setParameter("usernameValue", username)
+				.setParameter("useridValue", username)
 				.getResultList();
 			
 		} else {

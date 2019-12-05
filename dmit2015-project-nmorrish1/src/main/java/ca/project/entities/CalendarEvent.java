@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,7 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import security.entities.User;
 
 @Entity
 @Data
@@ -57,10 +59,10 @@ public class CalendarEvent implements Serializable {
 	//@Pattern(regexp="^.+@.+\\.[a-zA-Z]{2,4}$", message = "Please enter a valid email address")
 	private String reminderEmail;
 	
-	@Column(nullable = false)
 	@ManyToOne
 	@NotBlank(message = "User is required")
-	private String userId;
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	
 	

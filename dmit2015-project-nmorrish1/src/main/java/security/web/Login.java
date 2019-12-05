@@ -51,7 +51,7 @@ private static final long serialVersionUID = 1L;
 	private String displayName = "No Assigned Display Name";
 	
 	@Getter
-	private Integer userId = -1;
+	private Long userId;
 
 	@Getter
 	private String firstName = "No First Name";
