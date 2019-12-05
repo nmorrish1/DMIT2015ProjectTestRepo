@@ -44,7 +44,7 @@ import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefi
 //@BasicAuthenticationMechanismDefinition(realmName = "jaspitest")
 
 @EmbeddedIdentityStoreDefinition({
-	@Credentials(callerName = "user2015", password = "Password2015", groups = { "USER", "ADMIN" }),
+	//@Credentials(callerName = "user2015", password = "Password2015", groups = { "USER", "ADMIN" }),
 	@Credentials(callerName = "dmit2015", password = "Password2015", groups = "USER"),
 	@Credentials(callerName = "admin2015", password = "Password2015", groups = "ADMIN"), 
 })
