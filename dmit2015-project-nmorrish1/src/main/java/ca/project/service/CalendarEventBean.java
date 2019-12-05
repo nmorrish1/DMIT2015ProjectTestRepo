@@ -152,7 +152,6 @@ public class CalendarEventBean {
 		
 	}
 	
-	//@RolesAllowed("**")
 	public List<CalendarEvent> listAllEvents(){
 		
 		if(securityContext.getCallerPrincipal() != null) {
@@ -161,7 +160,7 @@ public class CalendarEventBean {
 			//String role = securityContext.getCallerPrincipal()
 			
 			return manageStatelessEntities.createQuery(
-					"SELECT event FROM CalendarEvent event WHERE event.user_id = :useridValue ORDER BY event.startDate DESC",
+					"SELECT event FROM CalendarEvent event WHERE event.user.username = :useridValue ORDER BY event.startDate DESC",
 					CalendarEvent.class)
 				.setParameter("useridValue", username)
 				.getResultList();

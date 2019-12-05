@@ -20,7 +20,7 @@ import security.entities.User;
 import security.web.SecurityEventInterceptor;
 
 @Singleton
-@Interceptors({SecurityEventInterceptor.class})
+//@Interceptors({SecurityEventInterceptor.class})
 @PermitAll
 public class UserBean {
 	
@@ -82,7 +82,7 @@ public class UserBean {
 		return entityManager.find(User.class, userId);
 	}
 	
-	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
+	//@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public User findUserByUserName(String userName) {
 		User queryResult = null;
 		

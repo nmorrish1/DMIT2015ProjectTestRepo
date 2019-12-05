@@ -2,6 +2,7 @@ package security.data;
 
 import java.util.stream.Collectors;
 
+import javax.annotation.security.RunAs;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
