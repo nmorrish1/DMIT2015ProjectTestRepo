@@ -50,7 +50,7 @@
 					<b:dataTableColumn label="End Date" value="#{event.endDate}"/>
 					<b:dataTableColumn label="Location" value="#{event.location}"/>
 					<b:dataTableColumn label="Description" value="#{event.description}"/>
-					<b:dataTableColumn label="Posted by" value="#{event.username}"/>
+					<b:dataTableColumn label="Posted by" value="#{event.user.username}"/>
 					<b:dataTableColumn label="Action">					
 						<b:link id="editLink" outcome="EditEvent"  icon-awesome="edit" icon-size="lg">
 							<f:param name="editId" value="#{event.eventId}" />

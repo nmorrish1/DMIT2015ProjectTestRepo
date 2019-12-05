@@ -2,6 +2,7 @@ package security.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,6 +35,7 @@ public class User implements Serializable{
 	private String password;
 	
 	@Column(nullable=false)
+	@NotBlank
 	@Pattern(regexp="^.+@.+\\.[a-zA-Z]{2,4}$", message = "Please enter a valid email address")
 	private String email;
 	

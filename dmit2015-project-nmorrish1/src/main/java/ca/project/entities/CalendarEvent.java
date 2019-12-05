@@ -60,7 +60,7 @@ public class CalendarEvent implements Serializable {
 	private String reminderEmail;
 	
 	@ManyToOne
-	@NotBlank(message = "User is required")
+	@NotNull
 	@JoinColumn(name="user_id")
 	private User user;
 	

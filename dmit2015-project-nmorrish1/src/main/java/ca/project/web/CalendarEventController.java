@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.security.enterprise.SecurityContext;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -19,6 +21,8 @@ import ca.project.entities.CalendarEvent;
 import ca.project.service.CalendarEventBean;
 import lombok.Getter;
 import lombok.Setter;
+import security.entities.User;
+import security.service.UserBean;
 import security.web.Login;
 
 @Named
@@ -27,10 +31,16 @@ public class CalendarEventController implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
+	SecurityContext securityContext;
+	
+	@Inject
 	private Login login;
 
 	@Inject
 	private Logger logger;
+	
+	@EJB
+	UserBean userBean;
 	
 	@Inject
 	private CalendarEventBean eventService;
@@ -80,6 +90,9 @@ public class CalendarEventController implements Serializable{
 				Messages.addGlobalError("Error: please enter an email address to send the reminder to");
 				
 			} else if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
+				
+				User currentUser = userBean.findUserByUserName(securityContext.getCallerPrincipal().getName());
+				currentEvent.setUser(currentUser);
 				eventService.add(currentEvent);
 				currentEvent = new CalendarEvent();
 				Messages.addFlashGlobalInfo("Event successfully added to calendar");
