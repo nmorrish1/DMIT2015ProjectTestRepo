@@ -23,6 +23,13 @@
 				<b:focus />
 			</b:inputText>
 			
+			<b:inputText id="email" 
+				label="Email"
+				label-small-screen="2" small-screen="10"
+				value="#{userDetails.email}">
+				<b:focus />
+			</b:inputText>
+			
 			<b:inputSecret id="password" 
 				label="Password"
 				label-small-screen="2" small-screen="10"
@@ -38,17 +45,37 @@
 				type="password">
 				<f:validateBean validationGroups="javax.validation.groups.Default,security.entities.PasswordValidationGroup" />
 			</b:inputSecret>
+			
+			<!-- <b:row>
+				<b:column col-md="2"></b:column>
+				<b:column col-md="3">
+					<b:link id="editLink" outcome="editPassword"  icon-awesome="edit" icon-size="lg">
+									<f:param name="editPassword" value="#{userDetails.user_id}" />
+									Change Password
+								</b:link>
+				</b:column>
+			</b:row> -->
 
 			<b:selectMultiMenu id="groups" 
-				label="Group membership"
-				label-small-screen="2" small-screen="10"
-				value="#{loginUserController.selectedRoles}">
-				<f:selectItems value="#{loginUserController.userRoles}" 
-					var="item"
-					itemValue="#{item.roleName}" 
-					itemLabel="#{item.roleName}" />			
-			</b:selectMultiMenu>
-			
+						label="Group membership"
+						label-small-screen="2" small-screen="10"
+						value="#{loginUserController.selectedRoles}">
+						<f:selectItems value="#{loginUserController.userRoles}" 
+							var="item"
+							itemValue="#{item.roleName}" 
+							itemLabel="#{item.roleName}" />			
+					</b:selectMultiMenu>
+			<b:row>
+				<b:column col-md="2">
+					
+				</b:column>
+				<b:column col-md="3">
+					<b:selectBooleanCheckbox value="#{userDetails.locked}" label="Check to lock account"></b:selectBooleanCheckbox>
+				</b:column>
+				<b:column col-md="3">
+					<b:selectBooleanCheckbox value="#{userDetails.verified}" label="Check to verify account"></b:selectBooleanCheckbox>
+				</b:column>
+			</b:row>
 		</b:panel>
 		
 	</p:outputPanel> 

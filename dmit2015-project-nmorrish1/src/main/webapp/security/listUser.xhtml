@@ -46,13 +46,20 @@
 				class="user-table">
 					<b:dataTableColumn label="User ID" value="#{user.user_id}"/>
 					<b:dataTableColumn label="User Name" value="#{user.username}"/>
+					<b:dataTableColumn label="Email" value="#{user.email}"/>
 					<b:dataTableColumn label="User Roles">
 						<ui:repeat var="role" value="#{user.roles}">
 							<h:outputText value="#{role.roleName}, " />
 						</ui:repeat>
 					</b:dataTableColumn>
+					<b:dataTableColumn label="Is Locked?">
+						<b:selectBooleanCheckbox value="#{user.locked}" disabled="true"></b:selectBooleanCheckbox>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Is Verified?">
+						<b:selectBooleanCheckbox value="#{user.verified}" disabled="true"></b:selectBooleanCheckbox>
+					</b:dataTableColumn>
 					<b:dataTableColumn label="Action">					
-						<b:link id="editLink" outcome="editUser"  icon-awesome="edit" icon-size="lg">
+						<b:link id="editLink" outcome="editUserAdmin"  icon-awesome="edit" icon-size="lg">
 							<f:param name="editId" value="#{user.user_id}" />
 							edit
 						</b:link>
