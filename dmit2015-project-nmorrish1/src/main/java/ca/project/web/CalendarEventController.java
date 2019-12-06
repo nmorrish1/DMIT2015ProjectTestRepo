@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,8 +34,8 @@ public class CalendarEventController implements Serializable{
 	@Inject
 	SecurityContext securityContext;
 	
-	@Inject
-	private Login login;
+//	@Inject
+//	private Login login;
 
 	@Inject
 	private Logger logger;
@@ -62,11 +63,15 @@ public class CalendarEventController implements Serializable{
 	@Getter @Setter
 	private boolean hideEmailEntry = true;
 	
+	private String username;
+	
 	@PostConstruct
 	void init() {
 		try {
+			username = securityContext.getCallerPrincipal().getName();
 			events = eventService.listAllEvents();
-			currentEvent.setReminderEmail(login.getUserEmail());
+			currentEvent.setUser(userBean.findUserByUserName(username));
+			currentEvent.setReminderEmail(currentEvent.getUser().getEmail());
 		} catch (Exception e) {
 			Messages.addGlobalError("Error loading events");
 			logger.fine(e.getMessage());
@@ -78,7 +83,7 @@ public class CalendarEventController implements Serializable{
 		
 		try {
 			Date currentDate = new Date(System.currentTimeMillis());
-			currentEvent.setReminderEmail(login.getUserEmail());
+			currentEvent.setReminderEmail(userBean.findUserByUserName(username).getEmail());
 			
 			if(		currentDate.compareTo(DateUtils.addMinutes(currentEvent.getStartDate(), -1 * currentEvent.getReminderNumber())) > 0
 					&& currentEvent.getReminderNumber() > 0) {
@@ -114,7 +119,10 @@ public class CalendarEventController implements Serializable{
 	
 	public void edit() {
 		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
-			if (currentEvent.getUser().getUser_id() != login.getUserId()) {
+			
+			String s1 = currentEvent.getUser().getUsername();
+			String s2 = securityContext.getCallerPrincipal().getName();
+			if (!s1.equals(s2) && !securityContext.isCallerInRole("ADMIN")) {
 				Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/401.xhtml");
 					
 			} else if (editId != null) {
@@ -201,6 +209,11 @@ public class CalendarEventController implements Serializable{
 		} else {
 			hideEmailEntry = true;
 		}
+	}
+	
+	public void cancelTimers() {
+		eventService.cancelTimers();
+		Messages.addGlobalInfo("Timers have been cancelled");
 	}
 
 }

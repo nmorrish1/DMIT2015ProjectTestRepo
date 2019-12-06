@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@PasswordMatch
+@PasswordMatch(groups=PasswordValidationGroup.class)
 @Data
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")

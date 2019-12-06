@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.ManagedProperty;
 import javax.faces.context.FacesContext;
@@ -35,21 +36,22 @@ import org.omnifaces.util.Messages;
 
 import lombok.Getter;
 import lombok.Setter;
+import security.service.UserBean;
 
 @Named
 @SessionScoped
-public class Login  implements Serializable {
-	
-private static final long serialVersionUID = 1L;
-	
+public class Login implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final int MAX_ATTEMPTS_ALLOWED = 5;
-	
+
 //	@Inject
 //	private Logger logger;
-	
+
 	@Getter
 	private String displayName = "No Assigned Display Name";
-	
+
 	@Getter
 	private Long userId;
 
@@ -58,7 +60,7 @@ private static final long serialVersionUID = 1L;
 
 	@Getter
 	private String lastName = "No Last Name";
-	
+
 	@Getter
 	private String userEmail = "no email";
 
@@ -67,28 +69,38 @@ private static final long serialVersionUID = 1L;
 
 	@Inject
 	private SecurityContext securityContext;
-		
-	@Inject @ManagedProperty("#{param.new}")
-	private boolean isNew;	// added for Caller-Initiated Authentication
-	
-	@NotBlank(message="Username value is required.")
-	@Getter @Setter
+
+	@EJB
+	UserBean userBean;
+
+	@Inject
+	@ManagedProperty("#{param.new}")
+	private boolean isNew; // added for Caller-Initiated Authentication
+
+	@NotBlank(message = "Username value is required.")
+	@Getter
+	@Setter
 	private String username;
-	
-	@NotBlank(message="Password value is required.")
-	@Getter @Setter
+
+	@NotBlank(message = "Password value is required.")
+	@Getter
+	@Setter
 	private String password;
 
 	public void submit() {
-		if (loginAttempts >= MAX_ATTEMPTS_ALLOWED) {
-			Faces.redirectPermanent("https://www.nait.ca/programs/dmit-computer-software-development?term=2020-winter");
-		}
+		if (loginAttempts >= MAX_ATTEMPTS_ALLOWED | userBean.findUserByUserName(username).getLocked()) {
+			// Faces.redirectPermanent("https://www.nait.ca/programs/dmit-computer-software-development?term=2020-winter");
+			Messages.addGlobalError("The account you are attempting to access is locked. Please bother the Administrators so they can unlock it for you.");
 			
-		switch (continueAuthentication()) {
+		} else if (!userBean.findUserByUserName(username).getVerified()) {
+			Messages.addGlobalInfo("The account you are attempting to access has not yet been verified. Please check your email or bother the Administrators");
+			
+		} else {
+			switch (continueAuthentication()) {
 			case SEND_CONTINUE:
-				//queryLdapUserInfo();
+				// queryLdapUserInfo();
 				Faces.responseComplete();
-				
+
 				break;
 			case SEND_FAILURE:
 				loginAttempts += 1;
@@ -96,27 +108,31 @@ private static final long serialVersionUID = 1L;
 				Messages.addGlobalError("Login attempt #{0}", loginAttempts);
 				if (loginAttempts >= MAX_ATTEMPTS_ALLOWED) {
 					Messages.addGlobalFatal("You {0} are banned from this site", username);
+					userBean.lock(username);
 				}
 				break;
 			case SUCCESS:
 				Faces.getFlash().setKeepMessages(true);
 				Messages.addFlashGlobalInfo("Login succeed");
-				//queryLdapUserInfo();
-				Faces.redirect(Faces.getRequestContextPath() + "/index.xhtml");		// added for Caller-Initiated Authentication
+				// queryLdapUserInfo();
+				Faces.redirect(Faces.getRequestContextPath() + "/index.xhtml"); // added for Caller-Initiated
+																				// Authentication
 				break;
 			case NOT_DONE:
 				// JSF does not need to take any special action here
 				break;
-		}				
+			}
+		}
+
 	}
-	
+
 	private AuthenticationStatus continueAuthentication() {
-		Credential credential = new UsernamePasswordCredential(username, new Password(password) );		
+		Credential credential = new UsernamePasswordCredential(username, new Password(password));
 		HttpServletRequest request = Faces.getRequest();
 		HttpServletResponse response = Faces.getResponse();
-		return securityContext.authenticate(request, response, 
-				AuthenticationParameters.withParams()
-					.newAuthentication(isNew)	// added for Caller-Initiated Authentication
-					.credential(credential));
+		return securityContext.authenticate(request, response,
+				AuthenticationParameters.withParams().newAuthentication(isNew) // added for Caller-Initiated
+																				// Authentication
+						.credential(credential));
 	}
 }

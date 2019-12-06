@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:param name="title" value="Assignment 04" />
+
+	<ui:define name="externalstyles">
+
+	</ui:define>
+
+	<ui:define name="internalstyles">
+
+	</ui:define>
+
+	<ui:define name="headscripts">
+
+	</ui:define>
+
+
+	<ui:define name="maincontent">
+		<b:jumbotron>
+			<marquee>
+				<h1>DMIT 2015 Project</h1>
+			</marquee>
+			<h2>Cancel all timers</h2>
+		</b:jumbotron>
+		
+		<b:messages id="messages" />
+		
+		<b:form>
+				<h:commandButton value="CANCEL ALL TIMERS" 
+								 onclick="return confirm('Are you sure you want to cancel all timers?')"
+								 action="#{calendarEventController.cancelTimers()}"
+								 style="color:white; padding:15% 32%; background-color:firebrick;font-size:40px;"
+								 update=":messages"/>
+		</b:form>
+				
+	</ui:define>
+	<ui:define name="bodyscripts">
+
+	</ui:define>
+</ui:composition>

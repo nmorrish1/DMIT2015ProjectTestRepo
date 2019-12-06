@@ -17,10 +17,9 @@ import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 import security.entities.Role;
 import security.entities.User;
-import security.web.SecurityEventInterceptor;
 
 @Singleton
-//@Interceptors({SecurityEventInterceptor.class})
+@Interceptors({InterceptorAdmins.class})
 @PermitAll
 public class UserBean {
 	
@@ -70,6 +69,7 @@ public class UserBean {
 		entityManager.flush();
 	}
 	
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public void delete(User existingUser) {
 		if(!entityManager.contains(existingUser)) {
 			existingUser = entityManager.merge(existingUser);
@@ -116,6 +116,19 @@ public class UserBean {
 		} else {
 			throw new Exception ("Current password is incorrect");
 		}
+	}
+	
+	public void lock(String userName) {
+		User existingUser = findUserByUserName(userName);
+		
+		if(!entityManager.contains(existingUser)) {
+			
+			existingUser.setLocked(true);
+			
+			entityManager.merge(existingUser);
+			entityManager.flush();
+		}
+		
 	}
 
 }

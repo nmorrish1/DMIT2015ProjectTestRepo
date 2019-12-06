@@ -2,9 +2,12 @@ package security.service;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -13,12 +16,14 @@ import security.entities.Role;
 
 
 @Singleton
-//@Interceptors({GroupSecurityInterceptor.class})
+@Interceptors({InterceptorAdmins.class})
+@PermitAll
 public class RoleBean {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
 	@Lock(LockType.WRITE)
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public void add(String roleName) {
 		
 		if(findRoleByName(roleName) != null) {
@@ -29,11 +34,13 @@ public class RoleBean {
 		entityManager.persist(newRole);
 	}
 	
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public void update(Role existingRole) {
 		entityManager.merge(existingRole);
 		entityManager.flush();
 	}
 	
+	@RolesAllowed(value = {"ADMIN", "DEVELOPER"})
 	public void delete(Role existingRole) {
 		if (entityManager.contains(existingRole)) {
 			existingRole = entityManager.merge(existingRole);

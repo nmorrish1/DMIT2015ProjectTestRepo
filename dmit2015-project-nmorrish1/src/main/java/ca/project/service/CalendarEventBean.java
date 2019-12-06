@@ -85,6 +85,14 @@ public class CalendarEventBean {
 		
 	}
 	
+	@RolesAllowed(value = "DEVELOPER")
+	public void cancelTimers() {
+		Collection<Timer> activeTimers = timerService.getAllTimers();
+		for(Timer currentTimer : activeTimers) {
+				currentTimer.cancel();
+		}
+	}
+	
 	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public void remove(CalendarEvent event) {
 		if (!manageStatelessEntities.contains(event)) {
@@ -156,15 +164,23 @@ public class CalendarEventBean {
 		
 		if(securityContext.getCallerPrincipal() != null) {
 			
-			String username = securityContext.getCallerPrincipal().getName();
-			//String role = securityContext.getCallerPrincipal()
-			
-			return manageStatelessEntities.createQuery(
-					"SELECT event FROM CalendarEvent event WHERE event.user.username = :useridValue ORDER BY event.startDate DESC",
-					CalendarEvent.class)
-				.setParameter("useridValue", username)
-				.getResultList();
-			
+			if(securityContext.isCallerInRole("ADMIN")) {
+				return manageStatelessEntities.createQuery(
+						"SELECT event FROM CalendarEvent event ORDER BY event.startDate DESC",
+						CalendarEvent.class)
+					.getResultList();
+				
+			} else {
+				
+				String username = securityContext.getCallerPrincipal().getName();
+				
+				return manageStatelessEntities.createQuery(
+						"SELECT event FROM CalendarEvent event WHERE event.user.username = :useridValue ORDER BY event.startDate DESC",
+						CalendarEvent.class)
+					.setParameter("useridValue", username)
+					.getResultList();
+			}
+
 		} else {
 			return manageStatelessEntities.createQuery(
 					"SELECT event FROM CalendarEvent event ORDER BY event.startDate DESC",

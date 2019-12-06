@@ -70,13 +70,14 @@
 		<header>
 			<b:navBar brand="DMIT2015 Assignment 05" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''">
 		    	<b:navbarLinks>
-					<b:dropMenu value="Calendar Use Cases">
-		            	<b:navLink value="Use Case 1: Create Event" href="#{request.contextPath}/CreateEvent.xhtml"></b:navLink>
-		            	<b:navLink value="Use Case 2: List Events" href="#{request.contextPath}/ListEvent.xhtml"></b:navLink>
+					<b:dropMenu value="Calendar Events">
+		            	<b:navLink value="Create Event" href="#{request.contextPath}/CreateEvent.xhtml"></b:navLink>
+		            	<b:navLink value="List Events" href="#{request.contextPath}/ListEvent.xhtml"></b:navLink>
 		        	</b:dropMenu>
-		        	<b:dropMenu value="User Use Cases">
-		            	<b:navLink value="Use Case 3: Create User" href="#{request.contextPath}/security/createUser.xhtml"></b:navLink>
-		            	<b:navLink value="Use Case 4: List Users" href="#{request.contextPath}/security/listUser.xhtml"></b:navLink>
+		        	<b:dropMenu value="Admin">
+		            	<b:navLink value="Create User" href="#{request.contextPath}/security/createUser.xhtml"></b:navLink>
+		            	<b:navLink value="List Users" href="#{request.contextPath}/security/listUser.xhtml"></b:navLink>
+		            	<b:navLink value="Cancel Timers" href="#{request.contextPath}/security/cancelTimers.xhtml"></b:navLink>
 		        	</b:dropMenu>
 		        </b:navbarLinks>
 		        
@@ -86,7 +87,7 @@
 	        
 	        	<c:if test="#{empty request.userPrincipal}">
 					<h:link value="Login" outcome="/security/customLogin"/> 
-					<!-- <h:link style="padding-left:10px;" value="Create Account" outcome="/security/customLogin"/> -->
+					<h:link style="padding-left:10px;" value="Create Account" outcome="/security/createAccount"/>
 				</c:if>      
 	        
 	        	<h:commandLink value="Logout #{request.userPrincipal.name}" 
