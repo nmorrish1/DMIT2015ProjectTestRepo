@@ -33,9 +33,6 @@ public class CalendarEventController implements Serializable{
 	
 	@Inject
 	SecurityContext securityContext;
-	
-//	@Inject
-//	private Login login;
 
 	@Inject
 	private Logger logger;
@@ -63,6 +60,9 @@ public class CalendarEventController implements Serializable{
 	@Getter @Setter
 	private boolean hideEmailEntry = true;
 	
+	@Getter
+	private String reminderEmailAddress;
+	
 	private String username;
 	
 	@PostConstruct
@@ -71,7 +71,7 @@ public class CalendarEventController implements Serializable{
 			username = securityContext.getCallerPrincipal().getName();
 			events = eventService.listAllEvents();
 			currentEvent.setUser(userBean.findUserByUserName(username));
-			currentEvent.setReminderEmail(currentEvent.getUser().getEmail());
+			reminderEmailAddress = (currentEvent.getUser().getEmail());
 		} catch (Exception e) {
 			Messages.addGlobalError("Error loading events");
 			logger.fine(e.getMessage());
@@ -83,16 +83,12 @@ public class CalendarEventController implements Serializable{
 		
 		try {
 			Date currentDate = new Date(System.currentTimeMillis());
-			currentEvent.setReminderEmail(userBean.findUserByUserName(username).getEmail());
 			
 			if(		currentDate.compareTo(DateUtils.addMinutes(currentEvent.getStartDate(), -1 * currentEvent.getReminderNumber())) > 0
 					&& currentEvent.getReminderNumber() > 0) {
 				
 				Messages.addGlobalError("Error: the reminder will take place in the past");
 				
-				
-			} else if(currentEvent.getReminderNumber() > 0 && currentEvent.getReminderEmail().isEmpty()) {
-				Messages.addGlobalError("Error: please enter an email address to send the reminder to");
 				
 			} else if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
 				
@@ -153,9 +149,6 @@ public class CalendarEventController implements Serializable{
 			
 			Messages.addGlobalError("Error: the reminder will take place in the past");
 			
-			
-		} else if(currentEvent.getReminderNumber() > 0 && currentEvent.getReminderEmail().isEmpty()) {
-			Messages.addGlobalError("Error: please enter an email address to send the reminder to");
 			
 		} else if (currentEvent.getStartDate().compareTo(currentEvent.getEndDate()) <= 0 ) {
 			try {

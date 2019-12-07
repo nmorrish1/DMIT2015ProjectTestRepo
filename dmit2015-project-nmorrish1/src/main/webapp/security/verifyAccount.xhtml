@@ -62,49 +62,60 @@
 	  
 	</style>
 
-	<title>${title}</title>
+	<title>Verify Account</title>
 </h:head>
 <h:body>
 	<b:container style="min-height:100%;">
 	<div style="margin-bottom:5%; min-height:95%;">
 		<header>
-			<b:navBar brand="DMIT2015 Final Project" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''">
-		    	<b:navbarLinks>
-					<b:dropMenu value="Calendar Events">
-		            	<b:navLink value="Create Event" href="#{request.contextPath}/CreateEvent.xhtml"></b:navLink>
-		            	<b:navLink value="List Events" href="#{request.contextPath}/ListEvent.xhtml"></b:navLink>
-		        	</b:dropMenu>
-		        	<b:dropMenu value="Admin">
-		            	<b:navLink value="Create User" href="#{request.contextPath}/security/createUser.xhtml"></b:navLink>
-		            	<b:navLink value="List Users" href="#{request.contextPath}/security/listUser.xhtml"></b:navLink>
-		            	<b:navLink value="Cancel Timers" href="#{request.contextPath}/security/cancelTimers.xhtml"></b:navLink>
-		        	</b:dropMenu>
-		        </b:navbarLinks>
-		        
-		        <b:navbarLinks pull="right">	
-	                
-	        <h:form style="display:inline; line-height:39px;" styleClass="form-inline">
-	        
-	        	<c:if test="#{empty request.userPrincipal}">
-					<h:link value="Login" outcome="/security/customLogin"/> 
-					<h:link style="padding-left:10px;" value="Create Account" outcome="/security/createAccount"/>
-				</c:if>      
-	        
-	        	<h:commandLink value="Logout #{request.userPrincipal.name}" 
-	        		action="#{logout.submit()}" 
-	       			rendered="#{not empty request.userPrincipal}">
-	       		</h:commandLink>	  
-	     
-	        </h:form>
-		</b:navbarLinks>
-		    </b:navBar>
+			<b:navBar brand="DMIT2015 Final Project" brandHref="#{request.contextPath}/index.xhtml" fixed="top" style="margin-bottom:60px''"></b:navBar>
 		</header>
 	
-		
+		<f:metadata>
+			<f:viewParam name="vKey" value="#{verifyAccount.verificationKey}" />
+			<f:event listener="#{verifyAccount.init()}" type="preRenderView" />
+		</f:metadata>
 	
-		<ui:insert name="maincontent">
-	    	NO MAIN CONTENT PROVIDED
-	    </ui:insert>
+		<c:if test="#{not empty request.userPrincipal}">
+			<p>Logged-in as #{request.userPrincipal}</p>
+		</c:if>
+	
+		<c:if test="#{empty request.userPrincipal}">
+		
+			<b:jumbotron>
+				<marquee><h1>DMIT 2015 Project</h1></marquee>
+				<h2>Complete Verification</h2>
+			</b:jumbotron>		
+		
+			<c:if test="#{param.error != null}">
+				<b:alert severity="danger">Invalid login credentials</b:alert>
+			</c:if>
+		
+			<b:messages id="messages" />
+			
+			<b:form name="loginForm">
+	            <h2 class="form-signin-heading">To complete verification, please sign in to your account below:</h2>
+	            <b:inputText id="username" label="User Name" placeholder="username" 
+	            	value="#{login.username}">
+	                <f:facet name="prepend">
+	                    <b:icon name="user" />
+	                </f:facet>
+	            </b:inputText>
+	            
+	            <b:inputSecret id="password" label="Password" placeholder="Password" type="password"
+	            	value="#{login.password}">
+	                <f:facet name="prepend">
+	                    <b:iconAwesome name="key" />
+	                </f:facet>
+	            </b:inputSecret>
+	            
+	            <b:commandButton value="Login"  icon="log-in" ajax="verifyAccount.verify()"/>
+
+	        </b:form>
+        
+        </c:if>
+    
+    
     
     </div>
 	<footer class="footer fixed-bottom">

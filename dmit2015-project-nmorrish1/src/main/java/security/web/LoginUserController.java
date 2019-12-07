@@ -7,6 +7,7 @@ import javax.enterprise.inject.Produces;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.security.enterprise.SecurityContext;
 import javax.validation.constraints.NotBlank;
 
 import org.omnifaces.util.Faces;
@@ -31,6 +32,9 @@ public class LoginUserController implements Serializable {
 	
 	@Inject 
 	private Logger logger;
+	
+	@Inject
+	private SecurityContext securityContext;
 	
 	@EJB
 	private UserBean userBean;
@@ -65,8 +69,14 @@ public class LoginUserController implements Serializable {
 	@PostConstruct
 	public void init() {
 		try {
-			userRoles = roleBean.list();
+			
+//			if(securityContext.isCallerInRole("ADMIN")) {
+//				System.out.println("invalid access");
+//			}
+			
 			users = userBean.list();
+			
+			userRoles = roleBean.list();
 		} catch (EJBAccessException e) {
 			Messages.addGlobalInfo(e.getMessage());
 			Messages.addFlashGlobalInfo(e.getMessage());
@@ -108,28 +118,6 @@ public class LoginUserController implements Serializable {
 	public String update() {
 		String outcome = null;
 		
-//		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
-//			if (currentEvent.getUser().getUser_id() != login.getUserId()) {
-//				Faces.redirectPermanent(Faces.getRequestContextPath() + "/errorpages/401.xhtml");
-//					
-//			} else if (editId != null) {
-//				try {
-//					currentEvent = eventService.findById(editId);
-//					if (currentEvent != null) {
-//						editMode = true;
-//					} else {
-//						Faces.redirect("ListEvent.xhtml");				
-//					}
-//				} catch (Exception e) {
-//					Messages.addGlobalError("Query unsucessful");
-//					logger.fine(e.getMessage());	
-//				}
-//				
-//			} else {
-//				Faces.navigate("ListEvent?faces-redirect=true");	
-//			}
-//		} 
-		
 		try {
 			String[] groups = selectedRoles.split(",");
 			userBean.update(userDetails, groups);
@@ -155,8 +143,8 @@ public class LoginUserController implements Serializable {
 		String outcome = null;
 		
 		try {
-			userBean.delete(userDetails);
 			users.remove(userDetails);
+			userBean.delete(userDetails);
 			userDetails = null;
 			editMode = false;
 			editId = null;
@@ -203,6 +191,30 @@ public class LoginUserController implements Serializable {
 		editMode = false;
 		Faces.redirect("ListEvent.xhtml");
 		return "list?faces-redirect=true";
+	}
+	
+	public String newUser() {
+		String outcome = null;
+		
+		try {
+			userBean.newAnonUser(userDetails);
+			userDetails = new User();
+			Messages.addFlashGlobalInfo("The account {0} was successful created. Please check your email to verify your account", User.class.getSimpleName());
+			outcome = "list?faces-redirect=true";
+			
+		} catch (EJBAccessException e) {
+			Messages.addGlobalInfo(e.getMessage());
+			logger.warning("Access Exception: " + e.getMessage());
+			String message = String.format("Remote IP: %s\n Remote User: %s\n", Faces.getRemoteAddr(), Faces.getRemoteUser());			
+			logger.warning(message);
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Error: {0}",  e.getLocalizedMessage());
+			
+		} catch (Exception e) {
+			Messages.addGlobalError("Create new {0} was not successful.", User.class.getSimpleName());
+		}
+		
+		return outcome;
 	}
 	
 	@Getter @Setter

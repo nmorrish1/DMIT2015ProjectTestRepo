@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.ScheduleExpression;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
@@ -27,6 +28,7 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import ca.project.entities.CalendarEvent;
 import ca.project.mail.SendMail;
+import security.service.UserBean;
 
 @Stateless
 @Interceptors({EventInterceptor.class})
@@ -39,6 +41,9 @@ public class CalendarEventBean {
 	@Inject
 	private Logger logger;
 	
+	@EJB
+	UserBean userBean;
+	
 	@PersistenceContext(unitName = "persistence-unit-from-persistence-xml", type = PersistenceContextType.TRANSACTION)
 	private EntityManager manageStatelessEntities;
 	
@@ -49,7 +54,7 @@ public class CalendarEventBean {
 	@Timeout
 	public void sendReminder(Timer timer) {
 		CalendarEvent event = (CalendarEvent) timer.getInfo();
-		SendMail message = new SendMail(event.getReminderEmail(), event);
+		SendMail message = new SendMail(event.getUser().getEmail(), event);
 		message.Send();
 		System.out.println("Reminder Sent");
 	}
@@ -57,7 +62,7 @@ public class CalendarEventBean {
 	@RolesAllowed(value = {"USER", "ADMIN", "DEVELOPER"})
 	public void add(CalendarEvent event) {
 		String username = securityContext.getCallerPrincipal().getName();
-		//event.setUserId(username);
+		event.setUser(userBean.findUserByUserName(username));
 		
 		
 		if (event.getReminderNumber() > 0) {

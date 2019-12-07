@@ -66,10 +66,15 @@
 				</b:column>
 				<b:panel id="emailpanel"  style="#{calendarEventController.hideEmailEntry == true ? 'display:none' : 'display:block'}">
 					<b:column col-md="6">
-						<b:inputText 
-							id="Email" 
-							label="Send reminder email to" 
-							value="#{calendarEventController.currentEvent.reminderEmail}" />
+						<b:label 
+							id="EmailReminderLabel" 
+							value="Reminder will be sent to:" 
+							style="font-size:1.0em; Color:#EBEBEB"/>
+							<br/>
+						<b:label 
+							id="EmailReminder" 
+							value="#{calendarEventController.reminderEmailAddress}"
+							style="font-size:1.1em; Color:#EBEBEB;"/>
 					</b:column>
 				</b:panel>
 				
