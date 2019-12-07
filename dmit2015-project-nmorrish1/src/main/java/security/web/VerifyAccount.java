@@ -67,15 +67,15 @@ public class VerifyAccount implements Serializable {
 	private User user;
 
 	public void init() {
-		try {
-			if (verificationKey == null) {
-				Faces.redirectPermanent(Faces.getRequestContextPath() + "/index.xhtml");
+		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
+			try {
+				if (verificationKey == null) {
+					Faces.redirectPermanent(Faces.getRequestContextPath() + "/index.xhtml");
+				}
+			} catch (Exception e) {
+				Messages.addGlobalError("ERROR: {0}", e.getMessage());
 			}
-		} catch (Exception e) {
-			Messages.addGlobalError("ERROR: {0}", e.getMessage());
 		}
-		
-
 	}
 
 	public void verify() {
