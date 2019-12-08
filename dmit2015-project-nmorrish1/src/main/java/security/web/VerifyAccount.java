@@ -109,20 +109,22 @@ public class VerifyAccount implements Serializable {
 						userBean.verify(token.getUserId());
 						Messages.addGlobalInfo("Account Successfully Verified.");
 						Faces.redirectPermanent(Faces.getRequestContextPath() + "/index.xhtml");
+						break;
 					} else {
 						userBean.lock(securityContext.getCallerPrincipal().getName());
 						Messages.addGlobalError("Mismatch between token and user, your account has been locked!");
+						break;
 					}
 					
 					
 					
 					//Faces.redirect(Faces.getRequestContextPath() + "/index.xhtml"); 
-					break;
+					//break;
 				case NOT_DONE:
 					// JSF does not need to take any special action here
 					break;
 				}
-
+				
 			} catch (Exception e) {
 				Messages.addGlobalError("Query unsucessful");
 				logger.fine(e.getMessage());
