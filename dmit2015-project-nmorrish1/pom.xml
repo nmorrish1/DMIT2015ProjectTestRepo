@@ -138,7 +138,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>dmit2015-project-nmorrish1</finalName>
+		<finalName>dmit2015-projectTesting-nmorrish1</finalName>
 		
 		<!-- https://docs.jboss.org/wildfly/plugins/maven/latest/examples/deployment-example.html -->
 		<plugins>
