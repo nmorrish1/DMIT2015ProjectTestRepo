@@ -33,6 +33,10 @@
 			<marquee><h1>DMIT 2015 Project</h1></marquee>
 			<h2>Nicholas Morrish</h2>
 		</b:jumbotron>
+		
+		<c:if test="#{not empty request.userPrincipal}">
+			<h3>Logged in as <strong>#{request.userPrincipal.name}</strong></h3>
+		</c:if>
 
 		<b:row>
 			<b:column col-md="12">

@@ -18,50 +18,7 @@
 		
 	<meta name="description" content="${description}"/>
     <meta name="keywords" content="${keywords}" />
-    
-    <!--  <ui:insert name="externalstyles">
-	</ui:insert>
-	<style>
-		<ui:insert name="internalstyles">	
-		</ui:insert>	
-	</style>
-	<ui:insert name="headscripts">
-	</ui:insert> -->
 	
-	<style>
-	  .jumbotron {margin-top:60px;}
-	  	
-	  .calculation-tax-table {width:280px; margin:0 auto; border: 1px solid #4E5D6C}
-	  .calculation-tax-table td {text-align:right;}
-	  
-	  .event-table{color: #DF691A}
-	  .user-table{color: #DF691A}
-	  .tax-table td:nth-child(1){width:60px; text-align:center;}
-	  .tax-table td:nth-child(2){width:120px;}
-	  .tax-table td:nth-child(3){width:120px;}
-	  .tax-table td:nth-child(4){text-align:center;}
-	  .tax-table th:nth-child(1){width:60px; text-align:center;}
-	  .tax-table th:nth-child(2){width:120px; text-align:center;}
-	  .tax-table th:nth-child(3){width:120px; text-align:center;}
-	  .tax-table th:nth-child(4){text-align:center;}
-	  
-	  .tax-table-province {width:730px; margin: 0 auto;}
-	  .tax-table-province th:nth-child(1){width:110px; text-align:center;}
-	  .tax-table-province th:nth-child(2){width:200px; text-align:center;}
-	  .tax-table-province th:nth-child(3){width:160px;}
-	  .tax-table-province th:nth-child(4){width:160px;}
-	  .tax-table-province th:nth-child(5){width:160px;}
-	  
-	  .tax-table-province td:nth-child(1){width:80px; text-align:center;}
-	  .tax-table-province td:nth-child(2){width:200px; text-align:left;}
-	  .tax-table-province td:nth-child(3){width:160px;}
-	  .tax-table-province td:nth-child(4){width:160px;}
-	  .tax-table-province td:nth-child(5){width:100px; text-align:center;}
-	  
-	  .input-group-addon {color:#ffffff}
-	  
-	</style>
-
 	<title>Verify Account</title>
 </h:head>
 <h:body>
@@ -73,12 +30,8 @@
 	
 		<f:metadata>
 			<f:viewParam name="vKey" value="#{verifyAccount.verificationKey}" />
-			<f:event listener="#{verifyAccount.init()}" type="preRenderView" />
+			<!-- <f:event listener="#{verifyAccount.intialVisit()}" type="preRenderView" /> -->
 		</f:metadata>
-	
-		<c:if test="#{not empty request.userPrincipal}">
-			<p>Logged-in as #{request.userPrincipal}</p>
-		</c:if>
 	
 		<c:if test="#{empty request.userPrincipal}">
 		
@@ -96,20 +49,24 @@
 			<b:form name="loginForm">
 	            <h2 class="form-signin-heading">To complete verification, please sign in to your account below:</h2>
 	            <b:inputText id="username" label="User Name" placeholder="username" 
-	            	value="#{login.username}">
+	            	value="#{verifyAccount.username}">
 	                <f:facet name="prepend">
 	                    <b:icon name="user" />
 	                </f:facet>
 	            </b:inputText>
 	            
 	            <b:inputSecret id="password" label="Password" placeholder="Password" type="password"
-	            	value="#{login.password}">
+	            	value="#{verifyAccount.password}">
 	                <f:facet name="prepend">
 	                    <b:iconAwesome name="key" />
 	                </f:facet>
 	            </b:inputSecret>
 	            
-	            <b:commandButton value="Login"  icon="log-in" ajax="verifyAccount.verify()"/>
+	            <b:commandButton 
+	            	value="Login"  
+	            	icon="log-in" 
+	            	action="#{verifyAccount.verify()}"
+	            	update=":messages"/>
 
 	        </b:form>
         

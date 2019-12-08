@@ -66,7 +66,7 @@ public class VerifyAccount implements Serializable {
 	
 	private User user;
 
-	public void init() {
+	public void intialVisit() {
 		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
 			try {
 				if (verificationKey == null) {
@@ -107,7 +107,8 @@ public class VerifyAccount implements Serializable {
 					
 					if(user.getUser_id() == token.getUserId()) {
 						userBean.verify(token.getUserId());
-						Messages.addFlashGlobalInfo("Account Successfully Verified");
+						Messages.addGlobalInfo("Account Successfully Verified.");
+						Faces.redirectPermanent(Faces.getRequestContextPath() + "/index.xhtml");
 					} else {
 						userBean.lock(securityContext.getCallerPrincipal().getName());
 						Messages.addGlobalError("Mismatch between token and user, your account has been locked!");

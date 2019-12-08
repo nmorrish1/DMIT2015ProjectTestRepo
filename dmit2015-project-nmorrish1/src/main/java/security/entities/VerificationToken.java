@@ -47,15 +47,22 @@ public class VerificationToken implements Serializable{
 	
 	private String generateToken() {
 		
-	    int leftLimit = 40; // (
+	    int leftLimit = 47;
 	    int rightLimit = 122; // z
-	    int targetStringLength = (int) ((Math.random() * ((125 - 100) + 1)) + 100);
+	    int targetStringLength = (int) ((Math.random() * ((130 - 120) + 1)) + 100);
 	    Random random = new Random();
 	    StringBuilder buffer = new StringBuilder(targetStringLength);
 	    for (int i = 0; i < targetStringLength; i++) {
 	        int randomLimitedInt = leftLimit + (int) 
 	          (random.nextFloat() * (rightLimit - leftLimit + 1));
-	        if(randomLimitedInt != 94 && randomLimitedInt != 96 && randomLimitedInt != 60 && randomLimitedInt != 62) {
+	        if(		randomLimitedInt != 94 
+	        		&& randomLimitedInt != 96 
+	        		&& randomLimitedInt != 58
+	        		&& randomLimitedInt != 59
+	        		&& randomLimitedInt != 60 
+	        		&& randomLimitedInt != 61 
+	        		&& randomLimitedInt != 62 
+	        		&& randomLimitedInt != 63) {
 	        	buffer.append((char) randomLimitedInt);
 	        }
 	        
